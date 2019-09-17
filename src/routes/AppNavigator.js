@@ -1,28 +1,27 @@
 /* eslint-disable prettier/prettier */
-import React from 'react'
+import React, { Component } from 'react'
 import Icon from 'native-base'
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
+import { createStackNavigator } from 'react-navigation-stack'
 
 //Splash Screen
 
 //Auth Screen
 import InitScreen from '../screens/Auth/Init Screen'
-import LoginScreen from '../screens/Auth/Login Screen'
-import SignUpScreen from '../screens/Auth/SignUp/SignUp Screen'
+import LoginScreen from '../screens/Auth/LoginScreen'
 import SignBirthScreen from '../screens/Auth/SignUp/SignBirth'
 import SignEmailScreen from '../screens/Auth/SignUp/SignEmail'
 import SignNameScreen from '../screens/Auth/SignUp/SignName'
 import SignPasswordScreen from '../screens/Auth/SignUp/SignPassword'
 
 //Home Screen
-import HomeScreen from '../screens/Home/Home Screen'
-import SavedScreen from '../screens/Home/Saved Screen'
-import HistoryScreen from '../screens/Home/History Screen'
-import ChatScreen from '../screens/Home/Chat Screen'
-import ProfileScreen from '../screens/Home/Profile Screen'
+import HomeScreen from '../screens/Home/HomeScreen'
+import SavedScreen from '../screens/Home/SavedScreen'
+import HistoryScreen from '../screens/Home/HistoryScreen'
+import ChatScreen from '../screens/Home/ChatScreen'
+import ProfileScreen from '../screens/Home/ProfileScreen'
 
 //Dynamic Screen
 
@@ -34,7 +33,7 @@ const HomeTabNavigation = createBottomTabNavigator(
                 tabBarIcon: ({ tintColor }) => (  
                 <Icon type="MaterialCommunityIcons" name="chat" style={{fontSize:22 , color:`${tintColor}`}} />
                 ),
-                title: 'Chats'
+                title: 'Home'
             },
         },
         Saved: {
@@ -61,7 +60,7 @@ const HomeTabNavigation = createBottomTabNavigator(
                 tabBarIcon: ({ tintColor }) => (
                 <Icon type="MaterialIcons" name="location-on" style={{fontSize:22, color:`${tintColor}`}}/>
                 ),
-                title: 'Chat'
+                title: 'Chats'
             },
         },
         Profile: {
@@ -87,7 +86,6 @@ const HomeTabNavigation = createBottomTabNavigator(
 
 const SignUpNavigation = createStackNavigator(
     {
-        SignUp: { screen: SignUpScreen },
         Name: { screen: SignNameScreen },
         Email: { screen: SignEmailScreen },
         Password: { screen: SignPasswordScreen },
@@ -102,14 +100,17 @@ const InitStack = createStackNavigator(
         Init: { screen: InitScreen },
         Login: { screen: LoginScreen },
         SignUp: { screen: SignUpNavigation },
+    },{
+        headerMode: 'none'
     }
 )
 
 const AppNavigation = createSwitchNavigator(
     {
-        Init: { screen: InitStack },
-        Home: { screen: HomeTabNavigation },
-    }
+        
+        Initial: { screen: InitStack },
+        HomeTab: { screen: HomeTabNavigation },
+    },{}
 )
 
 export default createAppContainer( AppNavigation )
