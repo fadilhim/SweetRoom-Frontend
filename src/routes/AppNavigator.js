@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import Icon from 'native-base'
+import { Icon } from 'native-base'
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
@@ -24,41 +24,43 @@ import ChatScreen from '../screens/Home/ChatScreen'
 import ProfileScreen from '../screens/Home/ProfileScreen'
 
 //Dynamic Screen
+import HotelScreen from '../screens/Dynamic/HotelScreen'
+import RoomScreen from '../screens/Dynamic/RoomScreen'
 
 const HomeTabNavigation = createBottomTabNavigator(
     {
-        Home: {
+        Explore: {
             screen: HomeScreen,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (  
-                <Icon type="MaterialCommunityIcons" name="chat" style={{fontSize:22 , color:`${tintColor}`}} />
+                <Icon type="AntDesign" name="search1" style={{fontSize:22 , color:`${tintColor}`}} />
                 ),
-                title: 'Home'
-            },
-        },
-        Saved: {
-            screen: SavedScreen,
-            navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (  
-                <Icon type="FontAwesome5" name="user-friends" style={{fontSize:22 , color:`${tintColor}`}} />
-                ),
-                title: 'Saved'
+                title: 'Explore'
             },
         },
         History: {
             screen: HistoryScreen,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (  
-                <Icon type="FontAwesome5" name="user-friends" style={{fontSize:22 , color:`${tintColor}`}} />
+                <Icon type="FontAwesome" name="sticky-note-o" style={{fontSize:22 , color:`${tintColor}`}} />
                 ),
                 title: 'History'
+            },
+        },
+        Saved: {
+            screen: SavedScreen,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => (  
+                <Icon type="AntDesign" name="hearto" style={{fontSize:22 , color:`${tintColor}`}} />
+                ),
+                title: 'Saved'
             },
         },
         Chat: {
             screen: ChatScreen,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (
-                <Icon type="MaterialIcons" name="location-on" style={{fontSize:22, color:`${tintColor}`}}/>
+                <Icon type="MaterialIcons" name="chat-bubble-outline" style={{fontSize:22, color:`${tintColor}`}}/>
                 ),
                 title: 'Chats'
             },
@@ -67,20 +69,30 @@ const HomeTabNavigation = createBottomTabNavigator(
             screen: ProfileScreen,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (
-                <Icon type="FontAwesome5" name="user" style={{fontSize:22, color:`${tintColor}`}}/>
+                <Icon type="SimpleLineIcons" name="user" style={{fontSize:22, color:`${tintColor}`}}/>
                 ),
                 title: 'Profile'
             },
         },
     },{
         tabBarOptions: { 
-            showIcon: true,
-            activeTintColor: 'white',
-            inactiveTintColor: '#999999',
-            activeBackgroundColor: '#232b2b',
-            inactiveBackgroundColor: '#232b2b',
+            // showIcon: true,
+            activeTintColor: '#fbda91',
+            inactiveTintColor: 'white',
+            activeBackgroundColor: '#fb8691',
+            inactiveBackgroundColor: '#fb8691',
             borderTopWidth: 0,
         },
+    }
+)
+
+const MainPage = createStackNavigator(
+    {
+        Home: { screen: HomeTabNavigation },
+        Hotel: { screen: HotelScreen },
+        Room: { screen: RoomScreen },
+    },{
+        headerMode: "none",
     }
 )
 
@@ -109,8 +121,8 @@ const AppNavigation = createSwitchNavigator(
     {
         
         Initial: { screen: InitStack },
-        HomeTab: { screen: HomeTabNavigation },
-    },{}
+        HomeTab: { screen: MainPage },
+    }
 )
 
 export default createAppContainer( AppNavigation )
