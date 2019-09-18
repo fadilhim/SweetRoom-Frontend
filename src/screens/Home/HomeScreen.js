@@ -27,20 +27,21 @@ class HomeScreen extends Component{
             })
     }
 
+    handleFav = () => {
+        this.setState({ love: true})
+        this.state.love === true ? console.warn('yyyyy') : console.warn('huuuu')
+        this.forceUpdate()
+    }
+
     _renderRow = ({item}) =>{
-        console.warn(this.state.love)
         return(
             <TouchableOpacity style={{width: '49%', height: 200, marginBottom: 10, marginRight: 5}} onPress={ () => this.props.navigation.navigate('Hotel', {data: item})} activeOpacity={0.8} >
                 <Image style={{ width: '100%', height: 120}} source={{uri: item.image}} />
                 <TouchableOpacity 
-                    onPress={ () => {
-                        this.setState({ love: !this.state.love })
-                        console.warn('oi')
-                        this.forceUpdate()
-                    }}
+                    onPress={ () => this.handleFav()}
                     style={{height: 20, width: 20, position: 'absolute', right: 10, top: 10}}
                 >
-                    <Icon type='AntDesign' name={this.state.love? 'heart' : 'hearto'} style={{ color: 'red', fontSize: 17,}} />
+                    <Icon type='AntDesign' name={this.state.love === true ? 'heart' : 'hearto'} style={{ color: 'red', fontSize: 17,}} />
                 </TouchableOpacity>
                 <Text style={styles.textCityCard}>{item.city.toUpperCase()}</Text>
                 <Text style={styles.textNameCard}>{item.hotel_name}</Text>
