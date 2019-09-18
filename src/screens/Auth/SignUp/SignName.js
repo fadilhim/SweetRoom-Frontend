@@ -7,7 +7,10 @@ class SignNameScreen extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            form: {},
+            form: {
+                first_name: '',
+                last_name: ''
+            },
             send: false,
         }
     }
@@ -19,7 +22,9 @@ class SignNameScreen extends Component{
             this.setState({
                 form: newFormData,
             })
-            if ( type == 'last_name') {
+            let firstName = this.state.form.first_name 
+            let lastName = this.state.form.last_name
+            if ( firstName.length > 0 && lastName.length > 0) {
                 this.setState({
                     send: true
                 })

@@ -1,8 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, TouchableOpacity, StyleSheet, } from 'react-native'
 import { View, Icon, Input, Label, Item } from 'native-base'
 import DatePicker from 'react-native-datepicker'
+import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage'
 
 class SignPasswordScreen extends Component{
     constructor(props) {
@@ -26,7 +28,11 @@ class SignPasswordScreen extends Component{
     }
 
     handleSubmit = () => {
-        this.props.navigation.navigate('Home')
+        axios.post('http://192.168.100.36:1010/user/register', this.state.form)
+            .then( async (res) => {
+                await AsyncStorage.setItem('token',  res.data.accessToken)
+                this.props.navigation.navigate('Home')
+            })
     }
 
     render() {

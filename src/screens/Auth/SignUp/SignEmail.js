@@ -2,25 +2,38 @@
 import React, { Component } from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { View, Icon, Input, Label, Item } from 'native-base'
+import Axios from 'axios'
 
 class SignEmailScreen extends Component{
     constructor(props) {
         super(props)
         this.state = {
             send: false,
+            emailInvalid: false,
             form: props.navigation.getParam('form'),
+            emailList: [],
         }
+    }
+
+    componentDidMount = () =>{
+        Axios.get('http://192.168.100.36:1010/user/allemail/a/')
+            .then( (res) => {
+                this.setState({ emailList: res.data.data})
+            } )
     }
 
     handleEmail = (type, value) => {
         let newFormData = {...this.state.form}
         newFormData[type] = value
-        if ( value.length > 1 ) {
-            this.setState({
-                form: newFormData,
-                send: true
-            })
-        }
+        // if ( this.state.emailList.includes(value) ) {
+        //     console.warn('email ada coi')
+        // }
+        // else if (value.length > 30) {
+        //     this.setState({
+        //         form: newFormData,
+        //         send: true
+        //     })
+        // }
         if ( value.length < 1 ) { this.setState({ send: false })}
     }
 
