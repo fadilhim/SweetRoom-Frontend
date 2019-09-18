@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { View, Icon, Input, Item, Label  } from 'native-base'
+import Axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage'
 
 class LoginScreen extends Component{
     constructor(props) {
@@ -29,8 +31,18 @@ class LoginScreen extends Component{
     }
 
     submitForm = () => {
-        console.warn(this.state.form)
-        this.props.navigation.navigate('HomeTab')
+        Axios.post('http://192.168.100.36:1010/user/login/', this.state.form)
+            .then( async (res) => {
+                if (res.data.status === 200){
+                    await AsyncStorage.setItem('token', res.data.accessToken)
+                    this.props.navigation.navigate('Home')
+                } else if (res.data.status === 402){
+                    console.warn('Password salah!')
+                } else if (res.data.status === 401){
+                    console.warn('user not found')
+                }
+            })
+            .catch(err => console.warn(err))
     }
 
     render() {
