@@ -9,6 +9,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 //Splash Screen
 
 //Auth Screen
+import AuthLoadScreen from '../screens/Auth/AuthLoading'
 import InitScreen from '../screens/Auth/Init Screen'
 import LoginScreen from '../screens/Auth/LoginScreen'
 import SignBirthScreen from '../screens/Auth/SignUp/SignBirth'
@@ -76,14 +77,12 @@ const HomeTabNavigation = createBottomTabNavigator(
         },
     },{
         tabBarOptions: { 
-            // showIcon: true,
-            activeTintColor: '#fbda91',
-            inactiveTintColor: 'white',
-            activeBackgroundColor: '#fb8691',
-            inactiveBackgroundColor: '#fb8691',
-            borderTopWidth: 0,
+            activeTintColor: '#fb8691',
+            inactiveTintColor: '#52525290',
+            activeBackgroundColor: 'white',
+            inactiveBackgroundColor: 'white',
         },
-    }
+    },
 )
 
 const MainPage = createStackNavigator(
@@ -119,7 +118,7 @@ const InitStack = createStackNavigator(
 
 const AppNavigation = createSwitchNavigator(
     {
-        
+        AuthLoad: { screen: AuthLoadScreen },
         Initial: { screen: InitStack },
         HomeTab: { screen: MainPage },
     }
