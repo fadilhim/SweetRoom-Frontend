@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
 import { Text, TouchableOpacity, ImageBackground, TouchableHighlight, StyleSheet } from 'react-native'
-import { View, } from 'native-base'
+import { View, Icon } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler'
 import StarRating from 'react-native-star-rating'
 import GoogleStaticMap from 'react-native-google-static-map'
@@ -10,8 +10,13 @@ class HotelScreen extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            starCount: 3
+            starCount: 3,
+            data: props.navigation.getParam('data')
         }
+    }
+
+    componentDidMount = () => {
+        // console.warn(this.state.data)
     }
 
     onStarRatingPress = (rating) => {
@@ -21,13 +26,14 @@ class HotelScreen extends Component{
     }
 
     render() {
+        let data = this.state.data
         return(
             <View style={{flex: 1}}>
                 <ScrollView>
-                    <ImageBackground style={{ width: '100%', height: 300, borderTopStartRadius: 100 }} source={{uri: 'https://www.ahstatic.com/photos/1867_ho_00_p_2048x1536.jpg'}} />
-                    <View style={{paddingLeft: 10, paddingRight: 10, paddingTop: 10, borderTopStartRadius: 35, borderTopEndRadius: 35, backgroundColor: 'white', position: 'relative', top: -50 }} >
-                        <Text style={{ fontWeight: 'bold', fontSize: 30, marginBottom: 5, paddingLeft: 10}}>Ibis Hotel</Text>
-                        <View style={{ width: '20%', marginBottom: 10, paddingLeft: 10}}>
+                    <ImageBackground style={{ width: '100%', height: 300, }} imageStyle={{ borderBottomLeftRadius: 40, borderBottomRightRadius: 40 }} source={{uri: data.image}} />
+                    <View style={{ position: 'relative', top: -40, left: 80, backgroundColor: 'white', borderRadius: 30, width: '60%', height: 100, shadowColor: "#000", shadowOffset: { width: 0, height: 9, }, shadowOpacity: 0.48, shadowRadius: 11.95, elevation: 18,}}> 
+                        <Text style={{ fontWeight: 'bold', fontSize: 30, marginBottom: 5, paddingLeft: 10}}>{data.hotel_name}</Text>
+                        <View style={{ width: '20%', paddingLeft: 10}}>
                             <StarRating
                                 disabled={true}
                                 emptyStar={'ios-star-outline'}
@@ -35,12 +41,17 @@ class HotelScreen extends Component{
                                 halfStar={'ios-star-half'}
                                 iconSet={'Ionicons'}
                                 maxStars={5}
-                                rating={this.state.starCount}
-                                // selectedStar={(rating) => this.onStarRatingPress(rating)}
+                                rating={data.rate}
                                 fullStarColor={'#fbda91'}
                                 starSize={20}
                             />
                         </View>
+                        <View style={{ flexDirection: 'row'}}>
+                            <Icon type='Entypo' name='location-pin' style={{ color: 'red', fontSize: 20}} />
+                            <Text style={{ fontSize: 12, marginTop: 5 }}>{data.city}</Text>
+                        </View>
+                    </View>
+                    <View style={{paddingLeft: 10, paddingRight: 10, }} >
                         <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Location</Text>
                         {/* <GoogleStaticMap
                             style={{ borderRadius: 5, borderColor: 'black', borderWidth: 1 }}
@@ -53,8 +64,7 @@ class HotelScreen extends Component{
                         <View style={{ flexDirection: 'row', width: '80%'}} >
                             <ImageBackground style={{width: 90, height: 90}} source={{uri: 'https://i.stack.imgur.com/dApg7.png'}} />
                             <View style={{paddingLeft: 12, paddingRight: 15, }}>
-                                <Text style={{ fontSize: 13, }}>Ibis Hotel, Jl. Malioboro No.52-58, Suryatmajan, Kec. Danurejan, Kota Yogyakarta, Jawa Tengah 55001</Text>
-                                <Text style={{ fontSize: 13, marginTop: 5 }}>Yogyakarta</Text>
+                                <Text style={{ fontSize: 13, }}>{data.address}</Text>
                             </View>
                         </View>
                     </View>
