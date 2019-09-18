@@ -19,7 +19,7 @@ class HomeScreen extends Component{
     componentDidMount = async () => {
         await AsyncStorage.getItem('token')
 
-        Axios.get('http://192.168.100.9:1010/hotel')
+        Axios.get('http://192.168.100.72:1010/hotel')
             .then(res => {
                 this.setState({
                     hotelList: res.data.result.data
