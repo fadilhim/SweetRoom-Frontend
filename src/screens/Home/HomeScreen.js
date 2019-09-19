@@ -18,6 +18,7 @@ class HomeScreen extends Component{
 
     componentDidMount = async () => {
         await AsyncStorage.getItem('token')
+        await AsyncStorage.setItem('tokenXendit', 'Basic eG5kX2RldmVsb3BtZW50XzY0S1hHd3hzYWJtVnVUbUxkYTZrNllQVFpiNWdtbmM4RG5VN0xQUnowZFdRTmhZekl1VnBqRFhHdmNscVc6')
 
         Axios.get('http://192.168.100.72:1010/hotel')
             .then(res => {

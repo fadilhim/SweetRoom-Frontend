@@ -58,7 +58,6 @@ class RoomScreen extends Component{
     }
 
     render() {
-        console.warn(this.state.detail_data)
         return(
             <View style={{flex: 1}}>
                 <ScrollView style={{ flex: 1, paddingTop: 15, paddingLeft: 15, paddingRight: 15}}>

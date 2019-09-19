@@ -39,7 +39,7 @@ class HistoryScreen extends Component{
         let timediff = d2.getTime() - d1.getTime()
         let daysDiff = timediff / (1000 * 3600 * 24)
         return(
-            <View style={{ backgroundColor: '#52525220', borderRadius: 15, width: '97%', height: 180, alignItems: 'center', flexDirection: 'row', marginLeft: 8, marginBottom: 8, shadowColor: "#000", }}>
+            <TouchableOpacity onPress={ () => this.props.navigation.navigate('DetailPayment', {item: item})} style={{ backgroundColor: '#52525220', borderRadius: 15, width: '97%', height: 180, alignItems: 'center', flexDirection: 'row', marginLeft: 8, marginBottom: 8, shadowColor: "#000", }}>
                 <View style={{ width: '40%', height: 170, position: 'relative', left: -9, }}>
                     <ImageBackground source={{uri: item.image}} imageStyle={{borderRadius: 15}} style={{ width: '100%', height: '100%'}} />
                 </View>
@@ -78,7 +78,7 @@ class HistoryScreen extends Component{
                         </View>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 

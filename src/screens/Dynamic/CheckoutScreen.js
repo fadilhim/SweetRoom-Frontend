@@ -79,6 +79,27 @@ class HotelScreen extends Component{
                         }
                     }
                 )
+            .then(res => {
+                Axios.get(`http://192.168.100.36:1010/reservation/latest/a/`,{
+                    headers: {
+                        sweet_token: this.state.token
+                    }
+                }).then( res => {
+                    console.log(res.data.data[0].id)
+                    Axios.post(`http://192.168.100.36:1010/payments/${res.data.data[0].id}`,"",{
+                        headers:{
+                            sweet_token: this.state.token
+                        }
+                    })
+                        .then( res => {
+                            console.log(res)
+                            this.props.navigation.navigate('History')
+                        })
+                        .catch(err => console.log('last', err))
+                })
+                .catch(err => console.log('habis get', err))
+            })
+            .catch( err => console.log('awal post', err))
     }
 
     render() {

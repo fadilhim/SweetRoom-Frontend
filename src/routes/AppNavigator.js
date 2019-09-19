@@ -28,6 +28,7 @@ import ProfileScreen from '../screens/Home/ProfileScreen'
 import HotelScreen from '../screens/Dynamic/HotelScreen'
 import RoomScreen from '../screens/Dynamic/RoomScreen'
 import CheckoutScreen from '../screens/Dynamic/CheckoutScreen'
+import DetailPaymentScreen from '../screens/Dynamic/DetailPaymentScreen'
 
 const HomeTabNavigation = createBottomTabNavigator(
     {
@@ -92,6 +93,7 @@ const MainPage = createStackNavigator(
         Hotel: { screen: HotelScreen },
         Room: { screen: RoomScreen },
         Checkout: { screen: CheckoutScreen },
+        DetailPayment: { screen: DetailPaymentScreen },
     },{
         headerMode: "none",
     }
