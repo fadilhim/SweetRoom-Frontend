@@ -1,62 +1,29 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { ActivityIndicator, StatusBar, View } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
-import firebase from 'react-native-firebase'
+import { ActivityIndicator, StatusBar, View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import firebase from 'firebase';
 
 // import firebaseConfig from '../../config/firebase'
 
 export default class AuthLoadingScreen extends React.Component {
-    async getToken() {
-        let fcmToken = await AsyncStorage.getItem('fcmToken');
-        if (!fcmToken) {
-            fcmToken = await firebase.messaging().getToken();
-            if (fcmToken) {
-                await AsyncStorage.setItem('fcmToken', fcmToken);
-            }
-        }
-    }
-    
-    async checkPermission() {
-        const enabled = await firebase.messaging().hasPermission();
-        if (enabled) {
-            this.getToken();
-        } else {
-            this.requestPermission();
-        }
-    }
-    
-    async requestPermission() {
-        try {
-            await firebase.messaging().requestPermission();
-            this.getToken();
-        } catch (error) {
-            console.log('permission rejected');
-        }
-    }
-    
-    async createNotificationListeners() {
-        firebase.notifications().onNotification(notification => {
-            notification.android.setChannelId('insider').setSound('default')
-            firebase.notifications().displayNotification(notification)
-        });
-    }
     componentDidMount = async () => {
-        // const channel = new firebase.notifications.Android.Channel('insider', 'insider channel', firebase.notifications.Android.Importance.Max)
-        // firebase.notifications().android.createChannel(channel);
-        // this.checkPermission();
-        // this.createNotificationListeners();
-        // firebase.auth()
-        //     .signInAnonymously()
-        //     .then(credential => {
-        //         if (credential) {
-        //         console.warn('default app user cuk ->', credential.user.toJSON());
-        //         }
-        //     });
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: 'AIzaSyDqf0uTouHVU39Q3ZSYPJivEVC2E6oqTH4',
+            authDomain: 'sweetroom-aa1e2.firebaseapp.com',
+            databaseURL: 'https://sweetroom-aa1e2.firebaseio.com',
+            projectId: 'sweetroom-aa1e2',
+            storageBucket: 'sweetroom-aa1e2.appspot.com',
+            messagingSenderId: '838539810985',
+            appId: '1:838539810985:web:d679f4f5b2ad2fac6231b8',
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
         await AsyncStorage.getItem('token')
             .then(
                 (result) => this.props.navigation.navigate(result ? 'HomeTab' : 'Initial')
-            )
+            );
     }
 
     render() {
@@ -65,6 +32,6 @@ export default class AuthLoadingScreen extends React.Component {
                 <ActivityIndicator />
                 <StatusBar barStyle="default" />
             </View>
-        )
+        );
     }
 }
