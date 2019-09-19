@@ -41,23 +41,23 @@ class ProfileScreen extends Component{
                     <TouchableOpacity onPress={() => {this.changeImage('photo')} } style={{ height: 30, width: 30, backgroundColor:'#525252', borderRadius: 50, justifyContent: "center", alignItems: 'center', position: 'absolute', left: 245, top: 178}} activeOpacity={0.9} >
                         <Icon type='Entypo' name='camera' style={{ color: 'white', fontSize: 17}} />
                     </TouchableOpacity>
-                    <Text style={{ position: 'relative', top: 227, fontFamily: 'AirbnbCerealMedium', fontSize: 25, color: 'white'}}>Pikachu</Text>
+                    <Text style={{ position: 'relative', top: 227, fontFamily: 'AirbnbCerealMedium', fontSize: 25, color: '#525252'}}>Pikachu</Text>
                 </View>
                 <View style={{height: '60%', backgroundColor: 'white', borderTopStartRadius: 30, borderTopEndRadius: 30, bottom: 70, paddingTop: 10, paddingLeft: 13, paddingRight: 13}}>
                     <View style={{height: 250, width: '100%', borderRadius: 20, marginBottom: 8, paddingLeft:8, paddingTop:5, padding:20}}>
-                        <Label>About Me</Label>
-                        <Label style={{fontWeight:'bold', fontSize:12, paddingTop:10}}>Birthday:</Label>
+                        <Label style={{fontWeight:'bold', fontSize:17}}>About Me</Label>
+                        <Label style={{fontWeight:'bold', fontSize:13, paddingTop:10}}>Birthday:</Label>
                         <TextInput
-                        underlineColorAndroid='grey'
-                        >20 Jan 2000</TextInput>
-                        <Label style={{fontWeight:'bold', fontSize:12}}>Phone:</Label>
+                            underlineColorAndroid='grey'
+                        />
+                        <Label style={{fontWeight:'bold', fontSize:13}}>Phone:</Label>
                         <TextInput
-                        underlineColorAndroid='grey'
-                        >089896876</TextInput>
-                        <Label style={{fontWeight:'bold', fontSize:12}}>Address:</Label>
+                            underlineColorAndroid='grey'
+                        />
+                        <Label style={{fontWeight:'bold', fontSize:13}}>Address:</Label>
                         <TextInput
-                        underlineColorAndroid='grey'
-                        >Yogyakarta</TextInput>
+                            underlineColorAndroid='grey'
+                        />
                     </View>
                     <TouchableOpacity onPress={ () => this.logout()} style={{height: 23, width: '30%', borderRadius: 20, backgroundColor: '#F8F8F8', marginBottom: 8, alignItems:'center'}} >
                         <Text style = {{fontWeight:'bold'}}>LogOut</Text>

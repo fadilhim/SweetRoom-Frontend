@@ -49,6 +49,7 @@ class SavedScreen extends Component{
                                     </View>
                                 </View> 
                                 <View>
+                                    <Text style={{ fontFamily: 'AirbnbCerealMedium', color: '#414141', alignSelf: 'flex-end', fontSize: 12 }}>Start from</Text>
                                     <Text style={{ fontFamily: 'AirbnbCerealMedium', color: '#414141', alignSelf: 'flex-end', fontSize: 18 }}>200K</Text>
                                     <Text style={{ fontFamily: 'AirbnbCerealMedium', color: '#41414180', alignSelf: 'flex-end', fontSize: 12 }}>/Night</Text>
                                 </View>
@@ -88,6 +89,7 @@ class SavedScreen extends Component{
                                         </View>
                                     </View> 
                                     <View>
+                                        <Text style={{ fontFamily: 'AirbnbCerealMedium', color: '#414141', alignSelf: 'flex-end', fontSize: 12 }}>Start from</Text>
                                         <Text style={{ fontFamily: 'AirbnbCerealMedium', color: '#414141', alignSelf: 'flex-end', fontSize: 18 }}>200K</Text>
                                         <Text style={{ fontFamily: 'AirbnbCerealMedium', color: '#41414180', alignSelf: 'flex-end', fontSize: 12 }}>/Night</Text>
                                     </View>
