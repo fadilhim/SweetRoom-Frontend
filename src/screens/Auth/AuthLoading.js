@@ -42,17 +42,17 @@ export default class AuthLoadingScreen extends React.Component {
         });
     }
     componentDidMount = async () => {
-        const channel = new firebase.notifications.Android.Channel('insider', 'insider channel', firebase.notifications.Android.Importance.Max)
-        firebase.notifications().android.createChannel(channel);
-        this.checkPermission();
-        this.createNotificationListeners();
-        firebase.auth()
-            .signInAnonymously()
-            .then(credential => {
-                if (credential) {
-                console.warn('default app user cuk ->', credential.user.toJSON());
-                }
-            });
+        // const channel = new firebase.notifications.Android.Channel('insider', 'insider channel', firebase.notifications.Android.Importance.Max)
+        // firebase.notifications().android.createChannel(channel);
+        // this.checkPermission();
+        // this.createNotificationListeners();
+        // firebase.auth()
+        //     .signInAnonymously()
+        //     .then(credential => {
+        //         if (credential) {
+        //         console.warn('default app user cuk ->', credential.user.toJSON());
+        //         }
+        //     });
         await AsyncStorage.getItem('token')
             .then(
                 (result) => this.props.navigation.navigate(result ? 'HomeTab' : 'Initial')
