@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "838539810985",
+    "firebase_url": "https://sweetroom-aa1e2.firebaseio.com",
+    "project_id": "sweetroom-aa1e2",
+    "storage_bucket": "sweetroom-aa1e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838539810985:android:c4671af4b0ad48e26231b8",
+        "android_client_info": {
+          "package_name": "com.sweetroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838539810985-87cvrk5vh52fpo5oale55tr9ns9q4eos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sweetroom",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "838539810985-q5tnhuac3lra45lk39j784l2v41i555l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvc6HPtr7lM0pUjfZf-UkGlqcdQlZespY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838539810985-q5tnhuac3lra45lk39j784l2v41i555l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
