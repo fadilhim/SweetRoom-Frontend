@@ -31,6 +31,9 @@ import CheckoutScreen from '../screens/Dynamic/CheckoutScreen'
 import DetailPaymentScreen from '../screens/Dynamic/DetailPaymentScreen'
 import MapScreen from '../screens/Dynamic/MapsScreen'
 import ChatRoomScreen from '../screens/Dynamic/ChatRoomScreen'
+import SearchScreen from '../screens/Dynamic/SearchScreen'
+import PaymentScreen from '../screens/Dynamic/PaymentScreen'
+import ExpiredScreen from '../screens/Dynamic/ExpiredScreen'
 
 const HomeTabNavigation = createBottomTabNavigator(
     {
@@ -97,7 +100,10 @@ const MainPage = createStackNavigator(
         Checkout: { screen: CheckoutScreen },
         DetailPayment: { screen: DetailPaymentScreen },
         Map: { screen: MapScreen },
-        ChatRoom: { screen: ChatRoomScreen }
+        ChatRoom: { screen: ChatRoomScreen },
+        Search: { screen: SearchScreen },
+        Payment: { screen: PaymentScreen },
+        Expired: { screen: ExpiredScreen },
     },{
         headerMode: "none",
     }
