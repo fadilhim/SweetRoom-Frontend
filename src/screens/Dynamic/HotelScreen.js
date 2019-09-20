@@ -26,6 +26,7 @@ class HotelScreen extends Component{
 
     render() {
         let data = this.state.data
+        console.log(data)
         return(
             <View style={{flex: 1}}>
                 <ScrollView>
@@ -51,7 +52,9 @@ class HotelScreen extends Component{
                     <View style={{paddingLeft: 10, paddingRight: 10, justifyContent: 'center' }} >
                         <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Location</Text>
                         <View style={{ flexDirection: 'row', width: '80%'}} >
-                            <ImageBackground style={{width: 90, height: 90}} source={{uri: 'https://i.stack.imgur.com/dApg7.png'}} />
+                            <TouchableOpacity activeOpacity={0.9} onPress={() => this.props.navigation.navigate('Map', {position: {lat: data.latitude, long: data.longitude}})}>
+                                <ImageBackground style={{width: 90, height: 90}} source={{uri: 'https://i.stack.imgur.com/dApg7.png'}} />
+                            </TouchableOpacity>
                             <View style={{paddingLeft: 12, paddingRight: 15, }}>
                                 <Text style={{ fontSize: 13, color: '#525252', }}>{data.address}</Text>
                             </View>

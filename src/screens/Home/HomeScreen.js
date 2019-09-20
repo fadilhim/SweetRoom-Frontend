@@ -31,7 +31,7 @@ class HomeScreen extends Component{
         await AsyncStorage.getItem('token')
         await AsyncStorage.setItem('tokenXendit', 'Basic eG5kX2RldmVsb3BtZW50XzY0S1hHd3hzYWJtVnVUbUxkYTZrNllQVFpiNWdtbmM4RG5VN0xQUnowZFdRTmhZekl1VnBqRFhHdmNscVc6')
 
-        Axios.get('http://192.168.100.72:1010/hotel')
+        Axios.get('http://192.168.100.36:1010/hotel')
             .then(res => {
                 this.setState({
                     hotelList: res.data.result.data
@@ -125,11 +125,10 @@ class HomeScreen extends Component{
     render() {
         return(
             <ScrollView style={{ flex: 1, paddingTop: 15, }}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Map')}><Text>MANTUL</Text></TouchableOpacity>
                 <View style={styles.containerView}>
-                    <TouchableOpacity style={{width: '100%', height: 35, backgroundColor: '#52525280', borderRadius: 15, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}} activeOpacity={0.95}>
+                    <TouchableOpacity style={styles.searchButton} activeOpacity={0.95}>
                         <Icon type='AntDesign' name='search1' style={{ fontSize: 20, color: '#ffffff',}} />
-                        <Text style={{ fontFamily: 'AirbnbCerealMedium', color: '#ffffff', marginLeft: 10}} >Search</Text>
+                        <Text style={styles.searchText} >Search</Text>
                     </TouchableOpacity>
                     <Text style={styles.labelText}>Discover</Text>
                 </View>
@@ -138,36 +137,25 @@ class HomeScreen extends Component{
                     horizontal={true}
                     style={{maxHeight: 230}}
                 >
-                    <TouchableOpacity style={{ width: 220, height: 230, marginStart: 13, marginRight: 5}} activeOpacity={0.95} >
-                        <ImageBackground style={{width: '100%', height: 230, }} imageStyle={{ borderRadius: 20}} source={{uri: 'https://cdn2.tstatic.net/tribunnews/foto/bank/images/candi-borobudur-magelang-jawa-tengah.jpg'}} blurRadius={0.4} >
+                    <TouchableOpacity style={styles.discoverCard} activeOpacity={0.95} >
+                        <ImageBackground style={styles.imageDisc} imageStyle={{ borderRadius: 20}} source={{uri: 'https://cdn2.tstatic.net/tribunnews/foto/bank/images/candi-borobudur-magelang-jawa-tengah.jpg'}} blurRadius={0.4} >
                             <View style={{ alignContent: 'space-between', height: '100%'}}>
-                                <View style={{flexDirection: 'row', backgroundColor: '#ffffff50', width: 50, height: 27, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'absolute', left: 15, top: 25 }}>
+                                <View style={styles.starDiscCard}>
                                     <Icon type='Ionicons' name='ios-star' style={{ fontSize: 15, color: '#ffffff', marginRight: 5}} />
-                                    <Text style={{color: '#ffffff', fontFamily: 'AirbnbCerealMedium', }}>4.5</Text>
+                                    <Text style={styles.starText}>4.5</Text>
                                 </View>
-                                <Text style={{ color: '#ffffff', fontSize: 20, fontFamily: 'AirbnbCerealMedium', position: 'absolute', bottom: 25, left: 15}}>Semarang,{'\n'}Central Java</Text>
+                                <Text style={styles.discoverText}>Semarang,{'\n'}Central Java</Text>
                             </View>
                         </ImageBackground>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ width: 220, height: 230, marginRight: 5}} activeOpacity={0.95} >
-                        <ImageBackground style={{width: '100%', height: 230, }} imageStyle={{ borderRadius: 20}} source={{uri: 'https://cdn2.tstatic.net/tribunnews/foto/bank/images/candi-borobudur-magelang-jawa-tengah.jpg'}} blurRadius={0.4} >
+                    <TouchableOpacity style={styles.discoverCard} activeOpacity={0.95} >
+                        <ImageBackground style={styles.imageDisc} imageStyle={{ borderRadius: 20}} source={{uri: 'https://cdn2.tstatic.net/tribunnews/foto/bank/images/candi-borobudur-magelang-jawa-tengah.jpg'}} blurRadius={0.4} >
                             <View style={{ alignContent: 'space-between', height: '100%'}}>
-                                <View style={{flexDirection: 'row', backgroundColor: '#ffffff50', width: 50, height: 27, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'absolute', left: 15, top: 25 }}>
+                                <View style={styles.starDiscCard}>
                                     <Icon type='Ionicons' name='ios-star' style={{ fontSize: 15, color: '#ffffff', marginRight: 5}} />
-                                    <Text style={{color: '#ffffff', fontFamily: 'AirbnbCerealMedium', }}>4.5</Text>
+                                    <Text style={styles.starText}>4.5</Text>
                                 </View>
-                                <Text style={{ color: '#ffffff', fontSize: 20, fontFamily: 'AirbnbCerealMedium', position: 'absolute', bottom: 25, left: 15}}>Semarang,{'\n'}Central Java</Text>
-                            </View>
-                        </ImageBackground>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ width: 220, height: 230, marginRight: 5}} activeOpacity={0.95} >
-                        <ImageBackground style={{width: '100%', height: 230, }} imageStyle={{ borderRadius: 20}} source={{uri: 'https://cdn2.tstatic.net/tribunnews/foto/bank/images/candi-borobudur-magelang-jawa-tengah.jpg'}} blurRadius={0.4} >
-                            <View style={{ alignContent: 'space-between', height: '100%'}}>
-                                <View style={{flexDirection: 'row', backgroundColor: '#ffffff50', width: 50, height: 27, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'absolute', left: 15, top: 25 }}>
-                                    <Icon type='Ionicons' name='ios-star' style={{ fontSize: 15, color: '#ffffff', marginRight: 5}} />
-                                    <Text style={{color: '#ffffff', fontFamily: 'AirbnbCerealMedium', }}>4.5</Text>
-                                </View>
-                                <Text style={{ color: '#ffffff', fontSize: 20, fontFamily: 'AirbnbCerealMedium', position: 'absolute', bottom: 25, left: 15}}>Semarang,{'\n'}Central Java</Text>
+                                <Text style={styles.discoverText}>Semarang,{'\n'}Central Java</Text>
                             </View>
                         </ImageBackground>
                     </TouchableOpacity>
@@ -175,14 +163,14 @@ class HomeScreen extends Component{
                 <View style={styles.containerView}>
                     <Text style={styles.labelText}>Introducing SweetRoom Max</Text>
                     <TouchableOpacity style={styles.maxCard} activeOpacity={0.9} >
-                        <Image style={{width: '100%', height: 190}} source={{uri: 'https://cdn.i-scmp.com/sites/default/files/styles/1200x800/public/d8/images/methode/2019/04/02/53edaba6-512b-11e9-8617-6babbcfb60eb_image_hires_105201.jpg?itok=Z9wEXJtF&v=1554173534'}} />
-                        <Text style={{fontFamily: 'AirbnbCerealMedium', color: '#414141', fontWeight: '100', fontSize: 15, paddingTop: 20, paddingLeft: 15, paddingRight: 15}}>Extraordinary rooms with five-star everything</Text>
-                        <Text style={{fontFamily: 'AirbnbCerealMedium', color: '#fb8691', fontWeight: '100', fontSize: 13, paddingTop: 20, paddingLeft: 15, paddingRight: 15}}>Explore SweetRoom Max ></Text>
+                        <Image style={styles.maxImage} source={{uri: 'https://cdn.i-scmp.com/sites/default/files/styles/1200x800/public/d8/images/methode/2019/04/02/53edaba6-512b-11e9-8617-6babbcfb60eb_image_hires_105201.jpg?itok=Z9wEXJtF&v=1554173534'}} />
+                        <Text style={styles.maxTextA}>Extraordinary rooms with five-star everything</Text>
+                        <Text style={styles.maxTextB}>Explore SweetRoom Max ></Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.containerView}>
                     <Text style={styles.labelText}>Places to stay around the world</Text>
-                    <View style={{ width: '100%', height: 408, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                    <View style={styles.roomContainer}>
                         <FlatList 
                             data={this.state.hotelList}
                             renderItem={this._renderRow}
@@ -191,6 +179,9 @@ class HomeScreen extends Component{
                         />
                     </View>
                 </View>
+                <TouchableOpacity style={{height: 40, width: '50%', alignSelf: 'center', backgroundColor: '#52525220', borderRadius: 2, justifyContent:'center', alignItems: 'center'}} activeOpacity={0.9} >
+                    <Text style={{color: '#fb8691', fontFamily: 'AirbnbCerealMedium'}}>Explore all rooms</Text>
+                </TouchableOpacity>
                 <View style={{height: 50}}/>
             </ScrollView>
         )
@@ -232,7 +223,30 @@ const styles = StyleSheet.create({
         fontSize: 10,
         marginBottom: 2,
         color: '#41414180',
-    }
+    },
+    searchButton: {
+        width: '100%',
+        height: 35,
+        backgroundColor: '#fb8691',
+        borderRadius: 15,
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        flexDirection: 'row'
+    },
+    searchText: { 
+        fontFamily: 'AirbnbCerealMedium', 
+        color: '#ffffff', 
+        marginLeft: 10
+    },
+    discoverCard: { width: 220, height: 230, marginStart: 13, marginRight: 5},
+    starDiscCard: {flexDirection: 'row', backgroundColor: '#ffffff50', width: 50, height: 27, borderRadius: 20, alignItems: 'center', justifyContent: 'center', position: 'absolute', left: 15, top: 25 },
+    starText: {color: '#ffffff', fontFamily: 'AirbnbCerealMedium', },
+    discoverText: { color: '#ffffff', fontSize: 20, fontFamily: 'AirbnbCerealMedium', position: 'absolute', bottom: 25, left: 15},
+    imageDisc: {width: '100%', height: 230, },
+    maxImage: {width: '100%', height: 190},
+    maxTextA: {fontFamily: 'AirbnbCerealMedium', color: '#414141', fontWeight: '100', fontSize: 15, paddingTop: 20, paddingLeft: 15, paddingRight: 15},
+    maxTextB: {fontFamily: 'AirbnbCerealMedium', color: '#fb8691', fontWeight: '100', fontSize: 13, paddingTop: 20, paddingLeft: 15, paddingRight: 15},
+    roomContainer: { width: '100%', height: 408, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' },
 })
 
 export default HomeScreen;

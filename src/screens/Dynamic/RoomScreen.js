@@ -17,7 +17,7 @@ class RoomScreen extends Component{
     }
 
     componentDidMount= async () => {
-        Axios.get(`http://192.168.100.72:1010/room/${this.state.hotel_id}`)
+        Axios.get(`http://192.168.100.36:1010/room/${this.state.hotel_id}`)
             .then(res => {
                 this.setState({
                     detail_data: res.data.result.data
