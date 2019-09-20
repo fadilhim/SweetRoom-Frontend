@@ -24,6 +24,37 @@ class HomeScreen extends Component{
         this.state = {
             hotelList: [],
             love: false,
+            city: [{
+                id: 1,
+                image: 'https://cdn2.tstatic.net/tribunnews/foto/bank/images/candi-borobudur-magelang-jawa-tengah.jpg',
+                star: 4.5,
+                city: 'Yogya',
+                province: 'Yogyakarta',
+            },{
+                id: 2,
+                image: 'https://www.suratkabar.id/wp-content/uploads/2016/08/Patung-Sby1.jpg',
+                star: 5,
+                city: 'Surabaya',
+                province: 'East Java',
+            },{
+                id: 3,
+                image: 'https://krjogja.com/kr-admin//files/news/image_1/36520/Tugu%20Monas.jpg',
+                star: 4.8,
+                city: 'Jakarta',
+                province: 'Jakarta',
+            },{
+                id: 4,
+                image: 'http://www.jurnalbandung.com/wp-content/uploads/2014/11/gedung-sate.jpg',
+                star: 4.8,
+                city: 'Bandung',
+                province: 'West Java',
+            },{
+                id: 5,
+                image: 'http://static.asiawebdirect.com/m/bangkok/portals/bali-indonesia-com/homepage/first-time-bali/pagePropertiesImage/bali-first-time.jpg.jpg',
+                star: 5,
+                city: 'Bali',
+                province: 'Bali',
+            }]
         }
     }
 
@@ -31,7 +62,7 @@ class HomeScreen extends Component{
         await AsyncStorage.getItem('token')
         await AsyncStorage.setItem('tokenXendit', 'Basic eG5kX2RldmVsb3BtZW50XzY0S1hHd3hzYWJtVnVUbUxkYTZrNllQVFpiNWdtbmM4RG5VN0xQUnowZFdRTmhZekl1VnBqRFhHdmNscVc6')
 
-        Axios.get('http://192.168.100.36:1010/hotel')
+        Axios.get('http://192.168.100.36:1010/hotel/data/4')
             .then(res => {
                 this.setState({
                     hotelList: res.data.result.data
@@ -92,6 +123,22 @@ class HomeScreen extends Component{
         this.forceUpdate()
     }
 
+    _renderCity = ({item}) => {
+        return(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Search', {turnCity: true, city: item.city})} style={styles.discoverCard} activeOpacity={0.95} >
+                <ImageBackground style={styles.imageDisc} imageStyle={{ borderRadius: 20}} source={{uri: item.image}} blurRadius={0.4} >
+                    <View style={{ alignContent: 'space-between', height: '100%'}}>
+                        <View style={styles.starDiscCard}>
+                            <Icon type='Ionicons' name='ios-star' style={{ fontSize: 15, color: '#ffffff', marginRight: 5}} />
+                            <Text style={styles.starText}>{item.star}</Text>
+                        </View>
+                        <Text style={styles.discoverText}>{item.city},{'\n'}{item.province}</Text>
+                    </View>
+                </ImageBackground>
+            </TouchableOpacity>
+        )
+    }
+
     _renderRow = ({item}) =>{
         return(
             <TouchableOpacity style={{width: '49%', height: 200, marginBottom: 10, marginRight: 5}} onPress={ () => this.props.navigation.navigate('Hotel', {data: item})} activeOpacity={0.8} >
@@ -104,7 +151,7 @@ class HomeScreen extends Component{
                 </TouchableOpacity>
                 <Text style={styles.textCityCard}>{item.city.toUpperCase()}</Text>
                 <Text style={styles.textNameCard}>{item.hotel_name}</Text>
-                <Text style={styles.textPriceCard}>Rp 200K/night</Text>
+                <Text style={styles.textPriceCard}>Start from Rp {item.price.slice(0, -3)}K/night</Text>
                 <View style={{ width: '30%',}}>
                     <StarRating
                         disabled={true}
@@ -126,43 +173,23 @@ class HomeScreen extends Component{
         return(
             <ScrollView style={{ flex: 1, paddingTop: 15, }}>
                 <View style={styles.containerView}>
-                    <TouchableOpacity style={styles.searchButton} activeOpacity={0.95}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Search')} style={styles.searchButton} activeOpacity={0.95}>
                         <Icon type='AntDesign' name='search1' style={{ fontSize: 20, color: '#ffffff',}} />
                         <Text style={styles.searchText} >Search</Text>
                     </TouchableOpacity>
                     <Text style={styles.labelText}>Discover</Text>
                 </View>
-                <ScrollView
-                    showsHorizontalScrollIndicator={false}
+                <FlatList
+                    data={this.state.city}
+                    renderItem={this._renderCity}
+                    keyExtractor={ (item) => item.id }
                     horizontal={true}
+                    showsHorizontalScrollIndicator={false}
                     style={{maxHeight: 230}}
-                >
-                    <TouchableOpacity style={styles.discoverCard} activeOpacity={0.95} >
-                        <ImageBackground style={styles.imageDisc} imageStyle={{ borderRadius: 20}} source={{uri: 'https://cdn2.tstatic.net/tribunnews/foto/bank/images/candi-borobudur-magelang-jawa-tengah.jpg'}} blurRadius={0.4} >
-                            <View style={{ alignContent: 'space-between', height: '100%'}}>
-                                <View style={styles.starDiscCard}>
-                                    <Icon type='Ionicons' name='ios-star' style={{ fontSize: 15, color: '#ffffff', marginRight: 5}} />
-                                    <Text style={styles.starText}>4.5</Text>
-                                </View>
-                                <Text style={styles.discoverText}>Semarang,{'\n'}Central Java</Text>
-                            </View>
-                        </ImageBackground>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.discoverCard} activeOpacity={0.95} >
-                        <ImageBackground style={styles.imageDisc} imageStyle={{ borderRadius: 20}} source={{uri: 'https://cdn2.tstatic.net/tribunnews/foto/bank/images/candi-borobudur-magelang-jawa-tengah.jpg'}} blurRadius={0.4} >
-                            <View style={{ alignContent: 'space-between', height: '100%'}}>
-                                <View style={styles.starDiscCard}>
-                                    <Icon type='Ionicons' name='ios-star' style={{ fontSize: 15, color: '#ffffff', marginRight: 5}} />
-                                    <Text style={styles.starText}>4.5</Text>
-                                </View>
-                                <Text style={styles.discoverText}>Semarang,{'\n'}Central Java</Text>
-                            </View>
-                        </ImageBackground>
-                    </TouchableOpacity>
-                </ScrollView>
+                />
                 <View style={styles.containerView}>
                     <Text style={styles.labelText}>Introducing SweetRoom Max</Text>
-                    <TouchableOpacity style={styles.maxCard} activeOpacity={0.9} >
+                    <TouchableOpacity style={styles.maxCard} activeOpacity={0.9} onPress={() => this.props.navigation.navigate('SweetMax')} >
                         <Image style={styles.maxImage} source={{uri: 'https://cdn.i-scmp.com/sites/default/files/styles/1200x800/public/d8/images/methode/2019/04/02/53edaba6-512b-11e9-8617-6babbcfb60eb_image_hires_105201.jpg?itok=Z9wEXJtF&v=1554173534'}} />
                         <Text style={styles.maxTextA}>Extraordinary rooms with five-star everything</Text>
                         <Text style={styles.maxTextB}>Explore SweetRoom Max ></Text>
@@ -179,7 +206,7 @@ class HomeScreen extends Component{
                         />
                     </View>
                 </View>
-                <TouchableOpacity style={{height: 40, width: '50%', alignSelf: 'center', backgroundColor: '#52525220', borderRadius: 2, justifyContent:'center', alignItems: 'center'}} activeOpacity={0.9} >
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Search', {turn: true})} style={{height: 40, width: '50%', alignSelf: 'center', backgroundColor: '#52525220', borderRadius: 2, justifyContent:'center', alignItems: 'center'}} activeOpacity={0.9} >
                     <Text style={{color: '#fb8691', fontFamily: 'AirbnbCerealMedium'}}>Explore all rooms</Text>
                 </TouchableOpacity>
                 <View style={{height: 50}}/>

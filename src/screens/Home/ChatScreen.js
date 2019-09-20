@@ -64,7 +64,8 @@ class ChatScreen extends Component{
         const messages = this.state.dataMessages;
         // console.warn(this.state.dataUser)
         return (
-          <View>
+          <View style={styles.containerView}>
+            <Text style={{ fontFamily: 'AirbnbCerealMedium', alignSelf: 'flex-start', fontSize: 30, color: '#414141', marginBottom: 25}}>Chats</Text>
             <FlatList
               key={messages.length}
               data={this.state.dataUser}
@@ -74,7 +75,7 @@ class ChatScreen extends Component{
               renderItem={post => {
                 const item = post.item;
                 console.warn(post, messages);
-                if (messages.includes(item.id)) {
+                if (item.id) {
                   return (
                     <View
                       style={
@@ -117,14 +118,6 @@ class ChatScreen extends Component{
             />
           </View>
         );
-        // console.warn(this.state.dataUser)
-        // return(
-        //     <ScrollView style={{ flex: 1, paddingTop: 15, }}>
-        //         <View style={styles.containerView}>
-        //             <Text style={{ fontFamily: 'AirbnbCerealMedium', alignSelf: 'flex-start', fontSize: 30, color: '#414141', marginBottom: 25}}>Chats</Text>
-        //         </View>
-        //     </ScrollView>
-        // )
     }
 }
 
