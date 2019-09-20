@@ -1,11 +1,22 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { Text, Image, View, StyleSheet, TouchableOpacity, ImageBackground, FlatList } from 'react-native'
+import {
+    Text,
+    Image,
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    ImageBackground,
+    FlatList,
+    PermissionsAndroid
+} from 'react-native'
 import { Icon, } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler'
 import StarRating from 'react-native-star-rating'
 import AsyncStorage from '@react-native-community/async-storage'
 import Axios from 'axios'
+import firebase from 'firebase'
+import Geolocation from 'react-native-geolocation-service'
 
 class HomeScreen extends Component{
     constructor(props) {
@@ -26,6 +37,53 @@ class HomeScreen extends Component{
                     hotelList: res.data.result.data
                 })
             })
+
+        let hasLocationPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+        if (!hasLocationPermission) {
+            hasLocationPermission = await this.requestLocationPermission()
+        } else {
+            Geolocation.watchPosition(
+                (position) => {
+                    firebase.database().ref('users/' + this.state.uid).update({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        lastSeen: position.timestamp
+                    })
+                },
+                (error) => {
+                    // See error code charts below.
+                    console.warn(error.code, error.message);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    forceRequestLocation: true,
+                    maximumAge: 10000,
+                    distanceFilter: 1
+                }
+            )
+        }
+    }
+
+    componentWillUnmount = () => {
+        Geolocation.stopObserving()
+    }
+
+    requestLocationPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+                    title: 'SweetRoom Location Permission',
+                    message: `SweetRoom needs permission to get your location`,
+                    buttonNeutral: 'Ask Me Later',
+                    buttonPositive: 'OK',
+                    buttonNegative: 'Cancel',
+                },
+            );
+            return granted === PermissionsAndroid.RESULTS.GRANTED
+        } catch (err) {
+            console.warn(err);
+            return false
+        }
     }
 
     handleFav = () => {
@@ -67,6 +125,7 @@ class HomeScreen extends Component{
     render() {
         return(
             <ScrollView style={{ flex: 1, paddingTop: 15, }}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Map')}><Text>MANTUL</Text></TouchableOpacity>
                 <View style={styles.containerView}>
                     <TouchableOpacity style={{width: '100%', height: 35, backgroundColor: '#52525280', borderRadius: 15, justifyContent: 'center', alignItems: 'center', flexDirection: 'row'}} activeOpacity={0.95}>
                         <Icon type='AntDesign' name='search1' style={{ fontSize: 20, color: '#ffffff',}} />

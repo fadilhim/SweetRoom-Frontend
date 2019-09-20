@@ -29,6 +29,7 @@ import HotelScreen from '../screens/Dynamic/HotelScreen'
 import RoomScreen from '../screens/Dynamic/RoomScreen'
 import CheckoutScreen from '../screens/Dynamic/CheckoutScreen'
 import DetailPaymentScreen from '../screens/Dynamic/DetailPaymentScreen'
+import MapScreen from '../screens/Dynamic/MapsScreen'
 
 const HomeTabNavigation = createBottomTabNavigator(
     {
@@ -94,6 +95,7 @@ const MainPage = createStackNavigator(
         Room: { screen: RoomScreen },
         Checkout: { screen: CheckoutScreen },
         DetailPayment: { screen: DetailPaymentScreen },
+        Map: { screen: MapScreen },
     },{
         headerMode: "none",
     }
