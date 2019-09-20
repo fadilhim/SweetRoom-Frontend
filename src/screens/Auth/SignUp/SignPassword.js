@@ -12,16 +12,22 @@ class SignPasswordScreen extends Component{
         }
     }
 
+    passwordRegex = (password) => {
+        // Combination of Uppercase, Lowercase, and have 8 length
+        let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9\W\_]{8,}$/
+        return passwordRegex.test(password)
+    }
+
     handlePassword = (type, value) => {
         let newFormData = {...this.state.form}
         newFormData[type] = value
-        if ( value.length > 1 ) {
+        if ( this.passwordRegex(newFormData.password) ) {
             this.setState({
                 form: newFormData,
                 send: true
             })
         }
-        if ( value.length < 1 ) { this.setState({ send: false })}
+        if ( !this.passwordRegex(newFormData.password) ) { this.setState({ send: false })}
     }
 
     render() {
@@ -31,10 +37,10 @@ class SignPasswordScreen extends Component{
                     <Icon type='Ionicons' name='md-arrow-round-back' style={{ color: '#f9f9f9' , fontSize: 30}} />
                 </TouchableOpacity>
                 <Text style={{ fontSize: 23, fontWeight: 'bold', color: '#f9f9f9', marginTop: 10, }} >Create a password</Text>
-                <Text style={{ fontSize: 12, color: '#f9f9f9', marginBottom: 30 }} >Your password must include at least one symbol and be 8 or more characters long</Text>
+                <Text style={{ fontSize: 12, color: '#f9f9f9', marginBottom: 30 }} >Your password must include at least one Uppercase and one Lowercase and be 8 or more characters long</Text>
                 <Item stackedLabel>
                     <Label style={{fontSize: 12, color: '#f9f9f9'}}>PASSWORD</Label>
-                    <Input style={{color: '#f9f9f9'}} onChangeText={ value => this.handlePassword('password', value) } />
+                    <Input style={{color: '#f9f9f9'}} onChangeText={ value => this.handlePassword('password', value) } secureTextEntry={true} />
                 </Item>
                 {this.state.send ?
                     <TouchableOpacity onPress={ () => this.props.navigation.navigate('Birthday', { form: this.state.form })} style={{width: 50, height: 50, justifyContent: "center", alignItems: 'center', backgroundColor: '#f9f9f9', borderRadius: 40, position: 'absolute', right: 15, bottom: 30}}>

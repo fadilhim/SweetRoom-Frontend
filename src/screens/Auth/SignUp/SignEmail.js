@@ -22,19 +22,26 @@ class SignEmailScreen extends Component{
             } )
     }
 
+    emailRegex = (email) => {
+        //One or more after '@' and minimum domain 2 character
+        let emailRegex = /^[\d\w\._-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/
+        return emailRegex.test(email)
+    }
+
     handleEmail = (type, value) => {
         let newFormData = {...this.state.form}
         newFormData[type] = value
         // if ( this.state.emailList.includes(value) ) {
         //     console.warn('email ada coi')
         // }
-        // else if (value.length > 30) {
-        //     this.setState({
-        //         form: newFormData,
-        //         send: true
-        //     })
-        // }
-        if ( value.length < 1 ) { this.setState({ send: false })}
+        // else 
+        if (this.emailRegex(newFormData.email)) {
+            this.setState({
+                form: newFormData,
+                send: true
+            })
+        }
+        if ( !this.emailRegex(newFormData.email) ) { this.setState({ send: false })}
     }
 
     render() {
