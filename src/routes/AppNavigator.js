@@ -34,6 +34,7 @@ import ChatRoomScreen from '../screens/Dynamic/ChatRoomScreen'
 import SearchScreen from '../screens/Dynamic/SearchScreen'
 import PaymentScreen from '../screens/Dynamic/PaymentScreen'
 import ExpiredScreen from '../screens/Dynamic/ExpiredScreen'
+import SweetMaxScreen from '../screens/Dynamic/SweetMaxScreen'
 
 const HomeTabNavigation = createBottomTabNavigator(
     {
@@ -104,6 +105,7 @@ const MainPage = createStackNavigator(
         Search: { screen: SearchScreen },
         Payment: { screen: PaymentScreen },
         Expired: { screen: ExpiredScreen },
+        SweetMax: { screen: SweetMaxScreen },
     },{
         headerMode: "none",
     }
