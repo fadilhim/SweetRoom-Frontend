@@ -8,10 +8,12 @@ import {
     TouchableOpacity,
     StyleSheet,
     Image,
+    Dimensions,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import AsyncStorage from '@react-native-community/async-storage'
 import firebase from 'firebase'
+import { ListItem, Left, Body, Right, Thumbnail, Container, Content, List, Title } from 'native-base'
 
 class ChatScreen extends Component{
     constructor(props) {
@@ -60,6 +62,37 @@ class ChatScreen extends Component{
               });
       })
     }
+
+    _renderRow = (post) => {
+        let width = Math.round(Dimensions.get('window').width)
+        const messages = this.state.dataMessages;
+        const item = post.item;
+        console.warn(post, messages);
+        if (item.id) {
+          return (
+              <ScrollView>
+                  <List style={{width: width}}>
+                    <ListItem avatar style={ item.id === this.state.id ? {display: 'none'} : styles.card}
+                      onLongPress={() => this.props.navigation.navigate('FriendProfile', { ChatId: item.id, })} 
+                      onPress={() => this.props.navigation.navigate('ChatRoom', {ChatId: item.id})}>
+                      <Left>
+                        <Thumbnail source={{uri: item.photo}}/>
+                      </Left>
+                      <Body>
+                        <Text style = {{fontWeight:'bold'}}>{item.first_name}</Text>
+                        <Text>Click here to message ...</Text>
+                      </Body>
+                      <Right>
+                        <Title style={'online' === 'online' ? styles.connect : styles.disconnect} />
+                          <Text style = {{color:'black'}}>{' '} {item.city}</Text>
+                      </Right>
+                    </ListItem>
+                  </List>
+              </ScrollView>
+          );
+        }
+    }
+
     render() {
         const messages = this.state.dataMessages;
         // console.warn(this.state.dataUser)
@@ -69,52 +102,8 @@ class ChatScreen extends Component{
             <FlatList
               key={messages.length}
               data={this.state.dataUser}
-              keyExtractor={item => {
-                return item.id;
-              }}
-              renderItem={post => {
-                const item = post.item;
-                console.warn(post, messages);
-                if (item.id) {
-                  return (
-                    <View
-                      style={
-                        item.id === this.state.id
-                          ? {display: 'none'}
-                          : styles.card
-                      }>
-                      <View style={styles.cardContent}>
-                        <Image
-                          style={styles.cardImage}
-                          source={{uri: item.photo}}
-                        />
-                      </View>
-                      <Text
-                        style={styles.cardTitle}
-                        onLongPress={() =>
-                          this.props.navigation.navigate('FriendProfile', {
-                            ChatId: item.id,
-                          })
-                        }
-                        onPress={() =>
-                          this.props.navigation.navigate('ChatRoom', {ChatId: item.id})
-                        }>
-                        {item.first_name}
-                      </Text>
-                      <Text style={styles.cardChat}>
-                        <View
-                          style={
-                            'online' === 'online'
-                              ? styles.connect
-                              : styles.disconnect
-                          }
-                        />{' '}
-                        {item.city}
-                      </Text>
-                    </View>
-                  );
-                }
-              }}
+              keyExtractor={item => item.id}
+              renderItem={this._renderRow}
             />
           </View>
         );
@@ -143,6 +132,7 @@ const styles = StyleSheet.create({
     },
     card: {
       flex: 1,
+      flexDirection: 'row',
       backgroundColor: 'transparent',
       margin: 10,
       height: 60,
@@ -151,7 +141,7 @@ const styles = StyleSheet.create({
     cardContent: {
       top: '0.00%',
       left: '0.00%',
-      width: 50,
+      width: '100%',
       height: 50,
     },
     cardImage: {
@@ -178,10 +168,10 @@ const styles = StyleSheet.create({
     cardChat: {
       top: '52.73%',
       left: '19.76%',
-      backgroundColor: 'transparent',
-      color: 'rgba(22,31,61,1)',
+      backgroundColor: 'tomato',
+      color: 'black',
       position: 'absolute',
-      width: 50,
+      width: 100,
       height: 50,
       opacity: 0.65,
       fontSize: 13,
