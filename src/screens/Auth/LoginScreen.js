@@ -11,7 +11,10 @@ class LoginScreen extends Component{
         super(props)
         this.state = {
             form: {},
-            send: false
+            send: false,
+            errorMitra: false,
+            errorUserNotFound: false,
+            errorWrongPass: false,
         }
     }
 
@@ -22,6 +25,11 @@ class LoginScreen extends Component{
     }
 
     handleForm = (type, value) => {
+        this.setState({
+            errorMitra: false,
+            errorUserNotFound: false,
+            errorWrongPass: false,
+        })
         let newFormData = {...this.state.form}
         newFormData[type] = value
         let pass = newFormData.password || 0
@@ -49,18 +57,17 @@ class LoginScreen extends Component{
                     )
                     this.props.navigation.navigate('Home')
                 } else if (res.data.status === 200 && res.data.result[0].level == 'mitra'){
-                    console.warn('iki gawe akun user cok')
+                    this.setState({ errorMitra: true})
                 } else if (res.data.status === 402){
-                    console.warn('Password salah!')
+                    this.setState({ errorWrongPass: true})
                 } else if (res.data.status === 401){
-                    console.warn('user not found')
+                    this.setState({ errorUserNotFound: true})
                 }
             })
             .catch(err => console.warn(err))
     }
 
     render() {
-        console.warn(this.state.form)
         return(
             <View style={styles.viewStyles}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between',}}>
@@ -76,15 +83,21 @@ class LoginScreen extends Component{
                     <Label style={{fontSize: 12, color: '#f9f9f9'}}>EMAIL ADDRESS</Label>
                     <Input style={{color: '#f9f9f9'}} onChangeText={ value => this.handleForm('email', value) } />
                 </Item>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 10  }} >
-                    <Item stackedLabel last>
-                        <Label style={{fontSize: 12, color: '#f9f9f9'}}>PASSWORD</Label>
-                        <Input style={{color: '#f9f9f9'}} onChangeText={ value => this.handleForm('password', value) } />
-                    </Item>
-                    <TouchableOpacity>
-                        <Text>Show</Text>
-                    </TouchableOpacity>
-                </View>
+                <Item stackedLabel last>
+                    <Label style={{fontSize: 12, color: '#f9f9f9'}}>PASSWORD</Label>
+                    <Input style={{color: '#f9f9f9'}} onChangeText={ value => this.handleForm('password', value) } secureTextEntry={true} />
+                </Item>
+                {this.state.errorMitra ?
+                    <Text style={{ fontSize: 17, color: '#fbda91', marginTop: 10, marginBottom: 30 }} >Sorry you must login with User account</Text>
+                    :
+                this.state.errorUserNotFound ?
+                    <Text style={{ fontSize: 17, color: '#fbda91', marginTop: 10, marginBottom: 30 }} >User not found! Please register first!</Text>
+                    :
+                this.state.errorWrongPass ?
+                    <Text style={{ fontSize: 17, color: '#fbda91', marginTop: 10, marginBottom: 30 }} >Wrong password or email! Please remember that password must contain at least uppercase, lowercase and 8 or more character long!</Text>
+                    :
+                    <Text> </Text>
+                }
                 {this.state.send ?
                     <TouchableOpacity onPress={ () => this.submitForm()} style={{width: 50, height: 50, justifyContent: "center", alignItems: 'center', backgroundColor: '#f9f9f9', borderRadius: 40, position: 'absolute', right: 15, bottom: 30}}>
                         <Icon type='Ionicons' name='ios-arrow-forward' style={{ color: '#fb8691'}} />
