@@ -4,6 +4,7 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { View, Icon, Input, Item, Label  } from 'native-base'
 import Axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
+import firebase from 'firebase'
 
 class LoginScreen extends Component{
     constructor(props) {
@@ -35,6 +36,10 @@ class LoginScreen extends Component{
             .then( async (res) => {
                 if (res.data.status === 200 && res.data.result[0].level == 'user' ){
                     await AsyncStorage.setItem('token', res.data.accessToken)
+                    await AsyncStorage.setItem('dataUser', JSON.stringify(res.data.result[0]))
+                    firebase.database().ref('users/'+ res.data.result[0].id).set(
+                        res.data.result[0]
+                    )
                     this.props.navigation.navigate('Home')
                 } else if (res.data.status === 200 && res.data.result[0].level == 'mitra'){
                     console.warn('iki gawe akun user cok')
@@ -48,6 +53,7 @@ class LoginScreen extends Component{
     }
 
     render() {
+        AsyncStorage.getItem('dataUser').then(res => console.warn(JSON.parse(res)))
         return(
             <View style={styles.viewStyles}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between',}}>
