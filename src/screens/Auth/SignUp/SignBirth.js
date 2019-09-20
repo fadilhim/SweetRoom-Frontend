@@ -52,6 +52,7 @@ class SignPasswordScreen extends Component{
                     placeholder="select date"
                     format="YYYY-MM-DD"
                     maxDate="2001-01-01"
+                    showIcon={false}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
