@@ -18,7 +18,10 @@ class HotelScreen extends Component{
                 num_people: 0,
                 plan_checkin: '',
                 plan_checkout: '',
+                price: ''
             },
+            dateIn: '',
+            dateOut: '',
         }
     }
 
@@ -73,6 +76,7 @@ class HotelScreen extends Component{
         newFormData[type] = value
         newFormData.num_people = this.state.numm
         newFormData.room_id = this.state.detail_room.id
+        newFormData.price = this.state.numm * this.state.detail_room.price
         this.setState({
             form: newFormData,
         })
@@ -116,67 +120,91 @@ class HotelScreen extends Component{
             <View style={{flex: 1}}>
                 <ScrollView style={{ flex: 1, paddingTop: 15, }} >
                     <View style={styles.containerView}>
-                        <Text style={{ fontFamily: 'AirbnbCerealMedium', alignSelf: 'flex-start', fontSize: 30, color: '#414141', marginBottom: 25}}>Checkout</Text>
-                        <View style={{height: 250, width: '100%', borderRadius: 20, marginBottom: 8, paddingLeft:8, paddingTop:5, padding:20}}>
-                        <Label style={{fontWeight:'bold', fontSize:13, paddingTop:10}}>Total People</Label>
-                        <TouchableOpacity onPress={ () => this.plus()}>
-                            <Icon type='FontAwesome' name='plus' />
-                        </TouchableOpacity>
-                        <Text>{this.state.numm}</Text>
-                        <TouchableOpacity onPress={ () => this.minus()}>
-                            <Icon type='FontAwesome' name='minus' />
-                        </TouchableOpacity>
-                        <Label style={{fontWeight:'bold', fontSize:13}}>Check In</Label>
-                        <DatePicker
-                            style={{width: 200}}
-                            date={this.state.date}
-                            mode="date"
-                            placeholder="select date"
-                            format="YYYY-MM-DD"
-                            minDate={date}
-                            maxDate="2020-06-01"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                // dateIcon: {
-                                //     position: 'absolute',
-                                //     left: 0,
-                                //     top: 4,
-                                //     marginLeft: 0
-                                // },
-                                dateInput: {
-                                    // margin: 'auto'
-                                }
-                            }}
-                            onDateChange={ date => {
-                                this.handleSubmit('plan_checkin', date)
-                            }}
-                        />
-                        <Label style={{fontWeight:'bold', fontSize:13}}>Check Out</Label>
-                        <DatePicker
-                            style={{width: 200}}
-                            date={this.state.date}
-                            mode="date"
-                            placeholder="select date"
-                            format="YYYY-MM-DD"
-                            minDate={this.state.form.plan_checkin || date}
-                            maxDate="2020-06-01"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                // dateIcon: {
-                                //     position: 'absolute',
-                                //     left: 0,
-                                //     top: 4,
-                                //     marginLeft: 0
-                                // },
-                                dateInput: {
-                                    // margin: 'auto'
-                                }
-                            }}
-                            onDateChange={ date => this.handleSubmit('plan_checkout', date) }
-                        />
-                    </View>
+                        <Text style={{ fontFamily: 'AirbnbCerealMedium', alignSelf: 'flex-start', fontSize: 30, color: '#414141', marginBottom: 20}}>Checkout</Text>
+                        <View style={{height: 250, width: '100%', borderRadius: 20, marginBottom: 8, paddingLeft:8, paddingRight: 20}}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15}}>
+                                <Label style={{fontWeight:'bold', fontSize:13, paddingTop:10,}}>Total People</Label>
+                                <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                                    <TouchableOpacity onPress={ () => this.minus()} style={styles.buttonPeople} >
+                                        <Icon type='FontAwesome' name='minus' style={styles.buttonPeopleIcon} />
+                                    </TouchableOpacity>
+                                    <Text style={{marginLeft: 10, marginRight: 10}}>{this.state.numm}</Text>
+                                    <TouchableOpacity onPress={ () => this.plus()} style={styles.buttonPeople} >
+                                        <Icon type='FontAwesome' name='plus' style={styles.buttonPeopleIcon} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <View>
+                                    <Label style={{fontWeight:'bold', fontSize:13, marginBottom: 10}}>Check In</Label>
+                                    <DatePicker
+                                        style={{width: 150}}
+                                        date={this.state.dateIn}
+                                        mode="date"
+                                        placeholder="select date"
+                                        format="YYYY-MM-DD"
+                                        minDate={date}
+                                        maxDate="2020-06-01"
+                                        confirmBtnText="Confirm"
+                                        cancelBtnText="Cancel"
+                                        showIcon={false}
+                                        customStyles={{
+                                            dateInput: {
+                                                margin: 'auto',
+                                                borderRadius: 5,
+                                                borderWidth: 1,
+                                                borderColor: '#fb8691',
+                                                backgroundColor: 'white',
+                                            },
+                                            dateText: {
+                                                color: '#fb8691',
+                                            },
+                                            placeholderText: {
+                                                color: '#fb8691',
+                                            },
+                                        }}
+                                        onDateChange={ date => {
+                                            this.handleSubmit('plan_checkin', date)
+                                            this.setState({dateIn: date})
+                                        }}
+                                    />
+                                </View>
+                                <View>
+                                    <Label style={{fontWeight:'bold', fontSize:13, marginBottom: 10}}>Check Out</Label>
+                                    <DatePicker
+                                        style={{width: 150}}
+                                        date={this.state.dateOut}
+                                        mode="date"
+                                        placeholder="select date"
+                                        format="YYYY-MM-DD"
+                                        minDate={this.state.form.plan_checkin || date}
+                                        maxDate="2020-06-01"
+                                        confirmBtnText="Confirm"
+                                        cancelBtnText="Cancel"
+                                        showIcon={false}
+                                        customStyles={{
+                                            dateInput: {
+                                                margin: 'auto',
+                                                borderRadius: 5,
+                                                borderWidth: 1,
+                                                borderColor: '#fb8691',
+                                                backgroundColor: 'white',
+                                            },
+                                            dateText: {
+                                                color: '#fb8691',
+                                            },
+                                            placeholderText: {
+                                                color: '#fb8691',
+                                            },
+                                        }}
+                                        onDateChange={ date => {
+                                            this.handleSubmit('plan_checkout', date)
+                                            this.setState({dateOut: date})
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                        </View>
                     </View>
                 </ScrollView>
                 <View style={styles.footer}>
@@ -188,7 +216,7 @@ class HotelScreen extends Component{
         )
     }
 }
-// #fbda91
+
 const styles = StyleSheet.create({
     containerView:{
         paddingLeft: 13,
@@ -220,6 +248,20 @@ const styles = StyleSheet.create({
         borderRadius:5,
         backgroundColor: "white",
     },
+    buttonPeople: {
+        backgroundColor: 'white',
+        borderColor: '#fb8691',
+        borderWidth: 1,
+        borderRadius: 50,
+        width: 50,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    buttonPeopleIcon: {
+        color: '#fb8691',
+        fontSize: 15
+    }
 })
 
 export default HotelScreen
