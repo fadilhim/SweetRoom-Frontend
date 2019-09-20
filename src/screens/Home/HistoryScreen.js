@@ -62,7 +62,7 @@ class HistoryScreen extends Component{
                             </View>
                         </View> 
                         <View style={{ width: '35%', alignItems: 'flex-end' }}>
-                            <Text style={{ fontFamily: 'AirbnbCerealMedium', fontSize: 13, color: `${item.status == 'pending' ? '#414141' : item.status == 'success' ? 'green': 'red'}` }} >{item.status.toUpperCase()}</Text>
+                            <Text style={{ fontFamily: 'AirbnbCerealMedium', fontSize: 13, color: `${item.status == 'PAID' ? 'green': 'red'}` }} >{item.status.toUpperCase()}</Text>
                         </View>
                     </View>
                     <View style={{ position: 'relative', marginTop: 8,}}>
