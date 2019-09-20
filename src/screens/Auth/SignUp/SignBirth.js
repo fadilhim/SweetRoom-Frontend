@@ -11,7 +11,8 @@ class SignPasswordScreen extends Component{
         super(props)
         this.state = {
             send: false,
-            form : props.navigation.getParam('form')
+            form : props.navigation.getParam('form'),
+            date: ''
         }
     }
 
@@ -36,7 +37,6 @@ class SignPasswordScreen extends Component{
     }
 
     render() {
-        console.warn(this.state.form)
         return(
             <View style={styles.viewStyles}>
                 <TouchableOpacity onPress={ () => this.props.navigation.goBack(null)}>
@@ -46,27 +46,38 @@ class SignPasswordScreen extends Component{
                 <Text style={{ fontSize: 12,color: '#f9f9f9', marginBottom: 30 }} >You need to be at least 18. Othe people who use SweetRoom won't see your birthday</Text>
                 <Label style={{fontSize: 12, color: '#f9f9f9'}}>BIRTHDAY</Label>
                 <DatePicker
-                    style={{width: 200}}
+                    style={{width: '100%', marginTop: 10}}
                     date={this.state.date}
                     mode="date"
                     placeholder="select date"
                     format="YYYY-MM-DD"
-                    minDate="2016-05-01"
-                    maxDate="2016-06-01"
+                    maxDate="2001-01-01"
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
-                        // dateIcon: {
-                        //     position: 'absolute',
-                        //     left: 0,
-                        //     top: 4,
-                        //     marginLeft: 0
-                        // },
+                        dateIcon: {
+                            position: 'absolute',
+                            left: 0,
+                            top: 4,
+                            marginLeft: 5
+                        },
                         dateInput: {
-                            // margin: 'auto'
-                        }
+                            margin: 'auto',
+                            borderRadius: 5,
+                            borderWidth: 0,
+                            backgroundColor: 'white',
+                        },
+                        dateText: {
+                            color: '#fb8691',
+                        },
+                        placeholderText: {
+                            color: '#fb8691',
+                        },
                     }}
-                    onDateChange={ date => this.handleBirthday('birth', date) }
+                    onDateChange={ date => {
+                        this.handleBirthday('birth', date)
+                        this.setState({ date: date})
+                    }}
                 />
                 {this.state.send ?
                     <TouchableOpacity onPress={ () => this.handleSubmit() } style={{width: 50, height: 50, justifyContent: "center", alignItems: 'center', backgroundColor: '#f9f9f9', borderRadius: 40, position: 'absolute', right: 15, bottom: 30}}>

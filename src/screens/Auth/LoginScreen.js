@@ -4,6 +4,7 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { View, Icon, Input, Item, Label  } from 'native-base'
 import Axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
+import firebase from 'firebase'
 
 class LoginScreen extends Component{
     constructor(props) {
@@ -14,20 +15,27 @@ class LoginScreen extends Component{
         }
     }
 
+    emailRegex = (email) => {
+        //One or more after '@' and minimum domain 2 character
+        let emailRegex = /^[\d\w\._-]+@[a-zA-Z]+\.[a-zA-Z]{2,}$/
+        return emailRegex.test(email)
+    }
+
     handleForm = (type, value) => {
         let newFormData = {...this.state.form}
         newFormData[type] = value
-        if ( value.length > 1 ) {
+        let pass = newFormData.password || 0
+        if ( this.emailRegex(newFormData.email ) || pass.length > 0 ) {
             this.setState({
                 form: newFormData,
             })
-            if ( type == 'password') {
-                this.setState({
-                    send: true
-                })
-            }
+        if ( this.emailRegex(newFormData.email) && pass.length > 0) {
+            this.setState({
+                send: true
+            })
         }
-        if ( value.length < 1 ) { this.setState({ send: false })}
+        }
+        if ( !this.emailRegex(newFormData.email) || pass.length < 1) { this.setState({ send: false })}
     }
 
     submitForm = () => {
@@ -35,6 +43,10 @@ class LoginScreen extends Component{
             .then( async (res) => {
                 if (res.data.status === 200 && res.data.result[0].level == 'user' ){
                     await AsyncStorage.setItem('token', res.data.accessToken)
+                    await AsyncStorage.setItem('dataUser', JSON.stringify(res.data.result[0]))
+                    firebase.database().ref('users/'+ res.data.result[0].id).set(
+                        res.data.result[0]
+                    )
                     this.props.navigation.navigate('Home')
                 } else if (res.data.status === 200 && res.data.result[0].level == 'mitra'){
                     console.warn('iki gawe akun user cok')
@@ -48,6 +60,7 @@ class LoginScreen extends Component{
     }
 
     render() {
+        console.warn(this.state.form)
         return(
             <View style={styles.viewStyles}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between',}}>

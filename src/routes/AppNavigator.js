@@ -30,6 +30,7 @@ import RoomScreen from '../screens/Dynamic/RoomScreen'
 import CheckoutScreen from '../screens/Dynamic/CheckoutScreen'
 import DetailPaymentScreen from '../screens/Dynamic/DetailPaymentScreen'
 import MapScreen from '../screens/Dynamic/MapsScreen'
+import ChatRoomScreen from '../screens/Dynamic/ChatRoomScreen'
 
 const HomeTabNavigation = createBottomTabNavigator(
     {
@@ -96,6 +97,7 @@ const MainPage = createStackNavigator(
         Checkout: { screen: CheckoutScreen },
         DetailPayment: { screen: DetailPaymentScreen },
         Map: { screen: MapScreen },
+        ChatRoom: { screen: ChatRoomScreen }
     },{
         headerMode: "none",
     }
