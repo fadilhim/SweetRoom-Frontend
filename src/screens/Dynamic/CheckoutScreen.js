@@ -24,6 +24,13 @@ class HotelScreen extends Component{
 
     componentDidMount = async () => {
         await AsyncStorage.getItem('token')
+            .then(
+                (result) => {
+                    !result ? 
+                        this.props.navigation.navigate('Login') : ''
+                }
+            )
+        await AsyncStorage.getItem('token')
                 .then(res => [
                     this.setState({
                         token: res

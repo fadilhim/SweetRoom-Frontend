@@ -17,6 +17,13 @@ class HistoryScreen extends Component{
 
     componentDidMount = async () => {
         await AsyncStorage.getItem('token')
+            .then(
+                (result) => {
+                    !result ? 
+                        this.props.navigation.navigate('Login') : ''
+                }
+            )
+        await AsyncStorage.getItem('token')
             .then( (result) => {
                 Axios.get( 'http://192.168.100.36:1010/reservation/history/a', {
                     headers: {

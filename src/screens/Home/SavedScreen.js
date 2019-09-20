@@ -11,6 +11,16 @@ class SavedScreen extends Component{
         this.state = {}
     }
 
+    componentDidMount = async () => {
+        await AsyncStorage.getItem('token')
+            .then(
+                (result) => {
+                    !result ? 
+                        this.props.navigation.navigate('Login') : ''
+                }
+            )
+    }
+
     render() {
         return(
             <ScrollView style={{ flex: 1, paddingTop: 15, }}>

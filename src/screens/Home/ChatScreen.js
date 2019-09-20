@@ -24,34 +24,41 @@ class ChatScreen extends Component{
     }
 
     componentDidMount = async () => {
-        await AsyncStorage.getItem('tokenXendit')
-        await AsyncStorage.getItem('dataUser')
-            .then( res => {
-                this.setState({ id: JSON.parse(res).id})
-                console.warn(JSON.parse(res).id)
-                firebase
-                    .database()
-                    .ref('users')
-                    .on('value', _res => {
-                    const data = Object.keys(_res.val()).map(Key => {
-                        return _res.val()[Key];
-                    });
-                    this.setState({
-                        dataUser: data,
-                    });
-                });
-                firebase
-                    .database()
-                    .ref('messages/' + JSON.parse(res).id)
-                    .on('value', _res => {
-                        if (_res.val() != null) {
-                            const data = Object.keys(_res.val());
-                            this.setState({
-                                dataMessages: data ,
-                            });
-                        }
-                });
-        })
+      await AsyncStorage.getItem('token')
+            .then(
+                (result) => {
+                    !result ? 
+                        this.props.navigation.navigate('Login') : ''
+                }
+            )
+      await AsyncStorage.getItem('tokenXendit')
+      await AsyncStorage.getItem('dataUser')
+          .then( res => {
+              this.setState({ id: JSON.parse(res).id})
+              console.warn(JSON.parse(res).id)
+              firebase
+                  .database()
+                  .ref('users')
+                  .on('value', _res => {
+                  const data = Object.keys(_res.val()).map(Key => {
+                      return _res.val()[Key];
+                  });
+                  this.setState({
+                      dataUser: data,
+                  });
+              });
+              firebase
+                  .database()
+                  .ref('messages/' + JSON.parse(res).id)
+                  .on('value', _res => {
+                      if (_res.val() != null) {
+                          const data = Object.keys(_res.val());
+                          this.setState({
+                              dataMessages: data ,
+                          });
+                      }
+              });
+      })
     }
     render() {
         const messages = this.state.dataMessages;
