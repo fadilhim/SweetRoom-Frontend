@@ -253,12 +253,14 @@ class ProfileScreen extends Component{
                             onChangeText={this.handleChange('address')}
                         />
                     </View>
-                    <TouchableOpacity onPress={ () => this.editSub()} style={styles.logout} >
-                        <Text style = {{fontWeight:'bold'}}>save</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={ () => this.logout()} style={styles.logout} >
-                        <Text style = {{fontWeight:'bold'}}>LogOut</Text>
-                    </TouchableOpacity>
+                    <View style={{flexDirection: 'row'}}>
+                        <TouchableOpacity onPress={ () => this.editSub()} style={styles.logout} >
+                            <Text style = {{fontWeight:'bold'}}>save</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={ () => this.logout()} style={styles.logout} >
+                            <Text style = {{fontWeight:'bold'}}>LogOut</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         );
