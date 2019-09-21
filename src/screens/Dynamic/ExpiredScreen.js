@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { Text } from 'react-native'
-import { View } from 'native-base'
+import { Text, Image } from 'react-native'
+import { View, Button } from 'native-base'
+import { ScrollView } from 'react-native-gesture-handler'
 
 class ExpiredScreen extends Component{
     constructor(props) {
@@ -12,7 +13,15 @@ class ExpiredScreen extends Component{
     render() {
         return(
             <View>
-                <Text>Sorry this request is expired!</Text>
+                <ScrollView>
+                    <Text style={{ fontSize: 30, margin: 25, fontWeight: 'bold' }}>Your Payment Has Expire</Text>
+                <View>
+                    <Image source={require('../../assets/expire.png')} style={{ width: '100%', resizeMode: 'contain'}}/>
+                </View>
+                <Button style={{ backgroundColor: '#fb8691' }} onPress={() => this.props.navigation.navigate('Home')}>
+                    <Text style={{ color: 'white', fontSize: 25, marginHorizontal: 80 }}>Return To Home</Text>
+                </Button>
+                </ScrollView>
             </View>
         )
     }
