@@ -96,7 +96,7 @@ class HistoryScreen extends Component{
             <ScrollView style={{ flex: 1, paddingTop: 15, }}>
                 <View style={styles.containerView}>
                     <Text style={styles.historyText}>History</Text>
-                    {this.state.cek.length > 1?
+                    {this.state.historyData.length > 1?
                         <FlatList 
                             data={this.state.historyData}
                             renderItem={this._renderRow}
