@@ -12,7 +12,7 @@ class ExpiredScreen extends Component{
     render() {
         return(
             <View>
-                <Text>Expired Cok!</Text>
+                <Text>Sorry this request is expired!</Text>
             </View>
         )
     }

@@ -1,39 +1,51 @@
 /* eslint-disable prettier/prettier */
-import React, { Component } from 'react'
-import { Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native'
-import { View, Icon, Label, Body, Title } from 'native-base'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
-import AsyncStorage from '@react-native-community/async-storage'
-import Axios from 'axios'
-import DatePicker from 'react-native-datepicker'
+import React, { Component } from 'react';
+import { Text, StyleSheet, TouchableOpacity, Image, Dimensions, PermissionsAndroid } from 'react-native';
+import { View, Icon, Label, Body, Title } from 'native-base';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
+import Axios from 'axios';
+import DatePicker from 'react-native-datepicker';
+import firebase from 'firebase';
+import ImagePicker from 'react-native-image-picker';
+import RNFetchBlob from 'rn-fetch-blob';
 
 class ProfileScreen extends Component{
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
+            Profile: {
+                name: '',
+                address: '',
+                email: '',
+                phone: '',
+                },
+            phone: '',
             profileData: {},
             editPhone: false,
             editAddress: false,
             date: '',
             form: {},
-            token: ''
-        }
+            isFocused: false,
+            isLoading: false,
+            token: '',
+        };
     }
-    async getuserData(){
+    getuserData = async () => {
         await AsyncStorage.getItem('token')
             .then( result => {
-                this.setState({ token: result})
+                this.setState({ token: result});
                 Axios.get('http://192.168.100.36:1010/user/profile',{
                     headers: {
-                        sweet_token: result
-                    }
+                        sweet_token: result,
+                    },
                 })
                 .then(res => this.setState({
                     profileData: res.data.data[0],
-                    date: res.data.data[0].birth
-                }))
+                    date: res.data.data[0].birth,
+                }));
             })
-            .catch( err => console.warn(err))
+            .catch( err => console.warn(err));
     }
 
     componentDidMount = async () => {
@@ -41,49 +53,149 @@ class ProfileScreen extends Component{
             .then(
                 (result) => {
                     !result ? 
-                        this.props.navigation.navigate('Login') : ''
+                        this.props.navigation.navigate('Login') : '';
                 }
-            )
-        this.getuserData()
+            );
+        this.getuserData();
     }
 
     handleSubmit = (type, value) => {
-        let newFormData = {...this.state.form}
-        newFormData[type] = value
+        let newFormData = {...this.state.form};
+        newFormData[type] = value;
         this.setState({
             form: newFormData,
-        })
+        });
     }
+    
+    handleChange = key => val => {
+        this.setState({
+        ...this.state,
+        Profile: {[key]: val},
+        });
+    };
+    handleFocus = () => {
+        this.setState({
+        isFocused: true,
+        });
+    };
+    handleBlur = () => {
+        this.setState({
+        isFocused: false,
+        });
+        firebase
+        .database()
+        .ref('users/' + this.state.profileData.id)
+        .update(this.state.Profile);
+        
+        Axios.patch(`http://192.168.100.36:1010/user/${this.state.profileData.id}`,
+        this.state.Profile
+        ,{
+            headers: {
+                sweet_token: this.state.token,
+            },
+        })
+        // .then( (res) => {
+        //     this.setState({editPhone: false, editAddress: false})
+        // })
+        .catch(err => console.log(err));
+    };
 
     editSub =() => {
         Axios.patch(`http://192.168.100.36:1010/user/${this.state.profileData.id}`,
         this.state.form
         ,{
             headers: {
-                sweet_token: this.state.token
-            }
+                sweet_token: this.state.token,
+            },
         })
         .then( (res) => {
-            this.setState({editPhone: false, editAddress: false})
+            this.setState({editPhone: false, editAddress: false});
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     }
 
     logout = async () => {
-        await AsyncStorage.clear()
-        this.props.navigation.navigate('Initial')
+        await AsyncStorage.clear();
+        this.props.navigation.navigate('Initial');
+    }
+
+    requestCameraPermission = async () => {
+        try {
+            const granted = await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.CAMERA,
+                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            ]);
+            return granted === PermissionsAndroid.RESULTS.GRANTED;
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    }
+    changeImage = async () => {
+        const Blob = RNFetchBlob.polyfill.Blob;
+        const fs = RNFetchBlob.fs;
+        window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+        window.Blob = Blob;
+
+        const options = {
+            title: 'Select Avatar',
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+            mediaType: 'photo',
+        };
+
+        let cameraPermission = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA) && PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE) && PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+        if(!cameraPermission){
+            cameraPermission = await this.requestCameraPermission();
+        } else {
+            ImagePicker.showImagePicker(options, (response)=> {
+                let uploadBob = null;
+                const imageRef = firebase.storage().ref('images/' + this.state.profileData.id).child('photo');
+                fs.readFile(response.path, 'base64')
+                    .then( (data) => {
+                        console.log('1');
+                        return Blob.build(data, { type: `${response.mime};BASE64`} );
+                    })
+                    .then( (blob) => {
+                        console.log('2');
+                        uploadBob = blob;
+                        return imageRef.put(blob, { contentType: `${response.mime}`});
+                    })
+                    .then( () => {
+                        console.log('3');
+                        uploadBob.close();
+                        return imageRef.getDownloadURL();
+                    })
+                    .then( (url) => {
+                        console.log('4');
+                        firebase.database().ref('users/' + this.state.profileData.id).update({ photo: url});
+                        Axios.patch(`http://192.168.100.36:1010/user/${this.state.profileData.id}`,
+                            {photo: url},{
+                                headers:{
+                                    sweet_token: this.state.token
+                                }
+                            })
+                            .then(res => console.log(res))
+                            .catch(err => console.log(err));
+                    })
+                    .catch( (err) => console.log(err));
+            });
+        }
     }
 
     render() {
-        this.getuserData()
-        console.log(this.state.form)
-        let profile = this.state.profileData
-        let height = Math.round(Dimensions.get('window').height)
+        // this.getuserData()
+        // console.log(this.state.form)
+        let profile = this.state.profileData;
+        let height = Math.round(Dimensions.get('window').height);
         return(
             <View style={{ height: height }}>
                 <View style={styles.headContainer}>
-                    <Image style={styles.avatar} source={{uri: 'https://www.pngkey.com/png/detail/193-1938385_-pikachu-avatar.png' }} />
-                    <TouchableOpacity onPress={() => {this.changeImage('photo')} } style={styles.editPhotoIcon} activeOpacity={0.9} >
+                    <Image style={styles.avatar} source={{uri: profile.photo }} />
+                    <TouchableOpacity onPress={() => {this.changeImage();} } style={styles.editPhotoIcon} activeOpacity={0.9} >
                         <Icon type='Entypo' name='camera' style={{ color: 'white', fontSize: 17}} />
                     </TouchableOpacity>
                     <Text style={styles.name}>Pikachu</Text>
@@ -118,38 +230,38 @@ class ProfileScreen extends Component{
                                 },
                             }}
                             onDateChange={ date => {
-                                this.setState({date: date})
-                                this.handleSubmit('birth', date)
+                                this.setState({date: date});
+                                this.handleSubmit('birth', date);
                             }}
                         />
                         <Label style={styles.label}>Phone:</Label>
-                        {this.state.editPhone ?
-                            <TextInput
-                                underlineColorAndroid='#fb8691'
-                                onChangeText={ (val) => this.handleSubmit('phone', val)}
-                            />
-                            :
-                            <TouchableOpacity onLongPress={()=> {this.setState({editPhone: true})}}><Text>{profile.phone}</Text></TouchableOpacity>
-                        }
-                        <Label style={styles.label}>Address:</Label>
-                        {this.state.editAddress ?
                         <TextInput
+                            placeholder={profile.phone}
                             underlineColorAndroid='#fb8691'
-                            onChangeText={ (val) => this.handleSubmit('address', val)}
+                            onFocus={this.handleFocus}
+                            onBlur={this.handleBlur}
+                            value={this.state.Profile.phone || profile.phone}
+                            onChangeText={this.handleChange('phone')}
                         />
-                        :
-                        <TouchableOpacity onLongPress={()=> {this.setState({editAddress: true})}}><Text>{profile.address}</Text></TouchableOpacity>
-                        }
+                        <Label style={styles.label}>Address:</Label>
+                        <TextInput
+                            placeholder={profile.address}
+                            underlineColorAndroid='#fb8691'
+                            onFocus={this.handleFocus}
+                            onBlur={this.handleBlur}
+                            value={this.state.Profile.address || profile.address}
+                            onChangeText={this.handleChange('address')}
+                        />
                     </View>
                     <TouchableOpacity onPress={ () => this.editSub()} style={styles.logout} >
-                        <Text style = {{fontWeight:'bold'}}>Edit</Text>
+                        <Text style = {{fontWeight:'bold'}}>save</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={ () => this.logout()} style={styles.logout} >
                         <Text style = {{fontWeight:'bold'}}>LogOut</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        )
+        );
     }
 }
 
@@ -168,16 +280,16 @@ const styles = StyleSheet.create({
         marginBottom:10,
         alignSelf:'center',
         position: 'absolute',
-        marginTop:70
+        marginTop:70,
     },
     editPhotoIcon: { height: 30, width: 30, backgroundColor:'#525252', borderRadius: 50, justifyContent: "center", alignItems: 'center', position: 'absolute', left: 245, top: 178},
     name: { position: 'relative', top: 227, fontFamily: 'AirbnbCerealMedium', fontSize: 25, color: '#525252'},
     body: {height: '60%', backgroundColor: 'white', borderTopStartRadius: 30, borderTopEndRadius: 30, bottom: 70, paddingTop: 10, paddingLeft: 13, paddingRight: 13},
     realBody: {height: 250, width: '100%', borderRadius: 20, marginBottom: 8, paddingLeft:8, paddingTop:5, padding:20},
-    aboutText: {fontWeight:'bold', fontSize:17, },
+    aboutText: {fontWeight:'bold', fontSize:17 },
     logout: {height: 40, width: '30%', borderRadius: 5, backgroundColor: 'white', borderColor: '#fb8691', marginBottom: 8, alignItems:'center'},
     label: {fontWeight:'bold', fontSize:13, marginTop: 10},
-})
+});
 
 
-export default ProfileScreen
+export default ProfileScreen;

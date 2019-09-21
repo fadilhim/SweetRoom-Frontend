@@ -21,7 +21,7 @@ class ChatScreen extends Component{
         this.state = {
             id: '',
             dataUser: [],
-            dataMessages: [''],
+            dataMessages: [],
         }
     }
 
@@ -67,8 +67,9 @@ class ChatScreen extends Component{
         let width = Math.round(Dimensions.get('window').width)
         const messages = this.state.dataMessages;
         const item = post.item;
-        console.warn(post, messages);
-        if (item.id) {
+        const id = item.id == undefined ? '' : item.id.toString()
+        console.warn('post', messages);
+        if (messages.includes(id)) {
           return (
               <ScrollView>
                   <List style={{width: width}}>
