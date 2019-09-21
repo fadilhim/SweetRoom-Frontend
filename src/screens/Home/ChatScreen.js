@@ -72,29 +72,30 @@ class ChatScreen extends Component{
         if (messages.includes(id)) {
           return (
               <ScrollView>
-                  <List style={{width: width}}>
-                    <ListItem avatar style={ item.id === this.state.id ? {display: 'none'} : styles.card}
-                      onLongPress={() => this.props.navigation.navigate('FriendProfile', { ChatId: item.id, })} 
-                      onPress={() => this.props.navigation.navigate('ChatRoom', {ChatId: item.id})}>
-                      <Left>
-                        <Thumbnail source={{uri: item.photo}}/>
-                      </Left>
-                      <Body>
-                        <Text style = {{fontWeight:'bold'}}>{item.first_name}</Text>
-                        <Text>Click here to message ...</Text>
-                      </Body>
-                      <Right>
-                        <Title style={'online' === 'online' ? styles.connect : styles.disconnect} />
-                          <Text style = {{color:'black'}}>{' '} {item.city}</Text>
-                      </Right>
-                    </ListItem>
-                  </List>
+                  <TouchableOpacity
+                    onLongPress={() => this.props.navigation.navigate('FriendProfile', { ChatId: item.id, })} 
+                    onPress={() => this.props.navigation.navigate('ChatRoom', {ChatId: item.id})}
+                  >
+                    <View style={{flexDirection: 'row', width: width*0.95}}>
+                      <View style={item.id === this.state.id ? {display: 'none'} : {justifyContent: 'center'}}>
+                        <Image source={{uri: item.photo}} style={{width: 50, height: 50, borderRadius: 50}} />
+                      </View>
+                      <View style={item.id === this.state.id ? {display: 'none'} : styles.card}>
+                          <Text style = {{fontWeight:'bold'}}>{item.first_name}</Text>
+                          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                            <Text style = {{color:'black', marginRight: 5}}>{' '} {item.city}</Text>
+                            <Title style={'online' === 'online' ? styles.connect : styles.disconnect} />
+                          </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
               </ScrollView>
           );
         }
     }
 
     render() {
+        let width = Math.round(Dimensions.get('window').width)
         const messages = this.state.dataMessages;
         // console.warn(this.state.dataUser)
         return (
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     containerView:{
         paddingLeft: 13,
         paddingRight: 13,
+        paddingTop: 8,
         alignItems: 'center',
     },
     connect: {
@@ -135,6 +137,7 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
       backgroundColor: 'transparent',
+      justifyContent: 'space-between',
       margin: 10,
       height: 60,
       borderBottomWidth: 0.2,

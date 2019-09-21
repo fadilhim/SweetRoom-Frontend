@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react'
-import { Text, StyleSheet, ImageBackground, TouchableOpacity, FlatList } from 'react-native'
+import { Text, StyleSheet, ImageBackground, TouchableOpacity, FlatList, Dimensions } from 'react-native'
 import { View, Icon } from 'native-base'
 import { ScrollView } from 'react-native-gesture-handler'
 import StarRating from 'react-native-star-rating'
@@ -11,7 +11,8 @@ class HistoryScreen extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            historyData: []
+            historyData: [],
+            cek: [],
         }
     }
 
@@ -90,15 +91,23 @@ class HistoryScreen extends Component{
     }
 
     render() {
+        let height = Math.round(Dimensions.get('window').height)
         return(
             <ScrollView style={{ flex: 1, paddingTop: 15, }}>
                 <View style={styles.containerView}>
                     <Text style={styles.historyText}>History</Text>
-                    <FlatList 
-                        data={this.state.historyData}
-                        renderItem={this._renderRow}
-                        keyExtractor={ (item) => item.id }
-                    />
+                    {this.state.cek.length > 1?
+                        <FlatList 
+                            data={this.state.historyData}
+                            renderItem={this._renderRow}
+                            keyExtractor={ (item) => item.id }
+                        />
+                        :
+                        <View style={{justifyContent: 'center', alignItems: 'center', height: height*0.7, width: '100%', }}>
+                            <Icon type='Octicons' name='file-directory' style={{ fontSize: 150, color: '#00000080'}} />
+                        <Text style={{color: '#00000080', textAlign: 'center'}}>Whoops, seems like you never book room.{'\n'}Let's try this app</Text>
+                    </View>
+                    }
                 </View>
             </ScrollView>
         )

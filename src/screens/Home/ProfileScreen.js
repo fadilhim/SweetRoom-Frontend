@@ -198,7 +198,7 @@ class ProfileScreen extends Component{
                     <TouchableOpacity onPress={() => {this.changeImage();} } style={styles.editPhotoIcon} activeOpacity={0.9} >
                         <Icon type='Entypo' name='camera' style={{ color: 'white', fontSize: 17}} />
                     </TouchableOpacity>
-                    <Text style={styles.name}>Pikachu</Text>
+                    <Text style={styles.name}>{profile.first_name + ' ' + profile.last_name }</Text>
                 </View>
                 <View style={styles.body}>
                     <View style={styles.realBody}>
