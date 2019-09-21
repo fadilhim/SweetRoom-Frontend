@@ -253,12 +253,12 @@ class ProfileScreen extends Component{
                             onChangeText={this.handleChange('address')}
                         />
                     </View>
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                         <TouchableOpacity onPress={ () => this.editSub()} style={styles.logout} >
-                            <Text style = {{fontWeight:'bold'}}>save</Text>
+                            <Text style = {{fontWeight:'bold', color: 'white'}}>Save</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={ () => this.logout()} style={styles.logout} >
-                            <Text style = {{fontWeight:'bold'}}>LogOut</Text>
+                            <Text style = {{fontWeight:'bold', color: 'white'}}>Log Out</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     body: {height: '60%', backgroundColor: 'white', borderTopStartRadius: 30, borderTopEndRadius: 30, bottom: 70, paddingTop: 10, paddingLeft: 13, paddingRight: 13},
     realBody: {height: 250, width: '100%', borderRadius: 20, marginBottom: 8, paddingLeft:8, paddingTop:5, padding:20},
     aboutText: {fontWeight:'bold', fontSize:17 },
-    logout: {height: 40, width: '30%', borderRadius: 5, backgroundColor: 'white', borderColor: '#fb8691', marginBottom: 8, alignItems:'center'},
+    logout: {height: 40, width: '30%', borderRadius: 5, backgroundColor: '#fb8691', borderColor: '#fb8691', marginBottom: 8, alignItems:'center', justifyContent: 'center'},
     label: {fontWeight:'bold', fontSize:13, marginTop: 10},
 });
 
