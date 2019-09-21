@@ -29,7 +29,7 @@ class SignPasswordScreen extends Component{
     }
 
     handleSubmit = () => {
-        axios.post('http://192.168.100.36:1010/user/register', this.state.form)
+        axios.post('https://sweetappbackend.herokuapp.com/user/register', this.state.form)
             .then( async (res) => {
                 await AsyncStorage.setItem('token',  res.data.accessToken)
                 this.props.navigation.navigate('Home')

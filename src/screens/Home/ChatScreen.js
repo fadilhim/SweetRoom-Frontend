@@ -37,7 +37,7 @@ class ChatScreen extends Component{
       await AsyncStorage.getItem('dataUser')
           .then( res => {
               this.setState({ id: JSON.parse(res).id})
-              console.warn(JSON.parse(res).id)
+              // console.warn(JSON.parse(res).id)
               firebase
                   .database()
                   .ref('users')

@@ -35,7 +35,7 @@ class DetailPaymentScreen extends Component{
             .then(res => {
                 console.log(res)
                 if (res.data.status == "EXPIRED"){
-                    Axios.post("http://192.168.100.36:1010/reservation/makeStatusCancel",
+                    Axios.post("https://sweetappbackend.herokuapp.com/reservation/makeStatusCancel",
                     res.data.external_id,{
                         headers: {
                             sweet_token: this.state.token

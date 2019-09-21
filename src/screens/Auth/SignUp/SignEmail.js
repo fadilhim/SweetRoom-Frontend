@@ -16,7 +16,7 @@ class SignEmailScreen extends Component{
     }
 
     componentDidMount = () =>{
-        Axios.get('http://192.168.100.36:1010/user/allemail/a/')
+        Axios.get('https://sweetappbackend.herokuapp.com/user/allemail/a/')
             .then( (res) => {
                 this.setState({ emailList: res.data.data})
             } )

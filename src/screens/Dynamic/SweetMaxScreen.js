@@ -19,7 +19,7 @@ class SweetMaxScreen extends Component {
     }
 
     componentDidMount = async () => {
-        Axios.get('http://192.168.100.36:1010/hotel/searchrate/5')
+        Axios.get('https://sweetappbackend.herokuapp.com/hotel/searchrate/5')
             .then(res => {
                 this.setState({
                     hotelList: res.data.result,

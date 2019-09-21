@@ -35,7 +35,7 @@ class ProfileScreen extends Component{
         await AsyncStorage.getItem('token')
             .then( result => {
                 this.setState({ token: result});
-                Axios.get('http://192.168.100.36:1010/user/profile',{
+                Axios.get('https://sweetappbackend.herokuapp.com/user/profile',{
                     headers: {
                         sweet_token: result,
                     },
@@ -87,7 +87,7 @@ class ProfileScreen extends Component{
         .ref('users/' + this.state.profileData.id)
         .update(this.state.Profile);
         
-        Axios.patch(`http://192.168.100.36:1010/user/${this.state.profileData.id}`,
+        Axios.patch(`https://sweetappbackend.herokuapp.com/user/${this.state.profileData.id}`,
         this.state.Profile
         ,{
             headers: {
@@ -101,7 +101,7 @@ class ProfileScreen extends Component{
     };
 
     editSub =() => {
-        Axios.patch(`http://192.168.100.36:1010/user/${this.state.profileData.id}`,
+        Axios.patch(`https://sweetappbackend.herokuapp.com/user/${this.state.profileData.id}`,
         this.state.form
         ,{
             headers: {
@@ -172,7 +172,7 @@ class ProfileScreen extends Component{
                     .then( (url) => {
                         console.log('4');
                         firebase.database().ref('users/' + this.state.profileData.id).update({ photo: url});
-                        Axios.patch(`http://192.168.100.36:1010/user/${this.state.profileData.id}`,
+                        Axios.patch(`https://sweetappbackend.herokuapp.com/user/${this.state.profileData.id}`,
                             {photo: url},{
                                 headers:{
                                     sweet_token: this.state.token

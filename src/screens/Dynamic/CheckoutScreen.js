@@ -83,7 +83,7 @@ class HotelScreen extends Component{
     }
 
     checkOut = () => {
-        Axios.post(`http://192.168.100.36:1010/reservation/insert/${this.state.detail_room.hotel_id}`,
+        Axios.post(`https://sweetappbackend.herokuapp.com/reservation/insert/${this.state.detail_room.hotel_id}`,
                     this.state.form,{
                         headers: {
                             sweet_token: this.state.token
@@ -91,19 +91,21 @@ class HotelScreen extends Component{
                     }
                 )
             .then(res => {
-                Axios.get(`http://192.168.100.36:1010/reservation/latest/a/`,{
+                console.log('1',res)
+                Axios.get(`https://sweetappbackend.herokuapp.com/reservation/latest/a/`,{
                     headers: {
                         sweet_token: this.state.token
                     }
-                }).then( res => {
-                    console.log(res.data.data[0].id)
-                    Axios.post(`http://192.168.100.36:1010/payments/${res.data.data[0].id}`,"",{
+                }).then( ris => {
+                    console.log(ris,'haha')
+                    console.log(ris.data.data[0].id, '2')
+                    Axios.post(`https://sweetappbackend.herokuapp.com/payments/${ris.data.data[0].id}`,"",{
                         headers:{
                             sweet_token: this.state.token
                         }
                     })
-                        .then( res => {
-                            console.log(res)
+                        .then( rus => {
+                            console.log(rus, '3')
                             this.props.navigation.navigate('History')
                         })
                         .catch(err => console.log('last', err))
@@ -114,6 +116,7 @@ class HotelScreen extends Component{
     }
 
     render() {
+        console.log(this.state.form)
         let today = new Date();
         let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
         return(

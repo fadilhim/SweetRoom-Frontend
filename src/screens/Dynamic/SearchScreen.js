@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 import React, { Component } from 'react'
-import { Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image, SafeAreaView, TextInput } from 'react-native'
+import { Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Image, SafeAreaView, TextInput, Dimensions } from 'react-native'
 import { View, Icon } from 'native-base'
 import Axios from 'axios'
 import StarRating from 'react-native-star-rating'
@@ -18,12 +18,13 @@ class SearchScreen extends Component {
             turn: props.navigation.getParam('turn') || false,
             turnCity: props.navigation.getParam('turnCity') || false,
             city: props.navigation.getParam('city') || false,
+            emptyData: false
         }
     }
 
     componentDidMount = async () => {
         if (this.state.turn){
-            Axios.get('http://192.168.100.36:1010/hotel')
+            Axios.get('https://sweetappbackend.herokuapp.com/hotel')
                 .then(res => {
                     this.setState({
                         hotelList: res.data.result.data,
@@ -31,7 +32,7 @@ class SearchScreen extends Component {
                     }, () => this.addRecords(0) )
                 })
         } else if (this.state.turnCity){
-            Axios.get(`http://192.168.100.36:1010/hotel/search/${this.state.city}`)
+            Axios.get(`https://sweetappbackend.herokuapp.com/hotel/search/${this.state.city}`)
                 .then(res => {
                     this.setState({
                         hotelList: res.data.result
@@ -42,17 +43,20 @@ class SearchScreen extends Component {
         }
     }
 
-    handleSearch = () => {
+    handleSearch = (value) => {
         if(this.state.search.length > 0) {
             this.setState({
                 hotelFlatLi: [],
                 hotelList: []
             })
-            Axios.get(`http://192.168.100.36:1010/hotel/search/${this.state.search}`)
+            Axios.get(`https://sweetappbackend.herokuapp.com/hotel/search/${this.state.search || value}`)
                 .then(res => {
                     this.setState({
                         hotelList: res.data.result
                     }, () => this.addRecords(0))
+                    if (res.data.result.length < 1){
+                        this.setState({emptyData: true})
+                    }
                     console.log(res)
                 })
                 .catch(err => console.log(err))
@@ -110,18 +114,27 @@ class SearchScreen extends Component {
     }
 
     render() {
+        let height = Math.round(Dimensions.get('window').height)
         console.log(this.state.hotelFlatLi)
         return(
-            <ScrollView nestedScrollEnabled={true} style={{flex: 1, paddingTop: 15, paddingLeft: 13, paddingRight: 13}}>
-                <View style={{flexDirection: 'row', width: '100%'}}>
+            <ScrollView nestedScrollEnabled={true} style={{flex: 1, paddingTop: 15, paddingLeft: 13, paddingRight: 13, height: height}}>
+                <View style={{flexDirection: 'row', width: '100%', }}>
                     <TextInput
                         underlineColorAndroid='#fb8691'
                         onChangeText={ (value) => this.setState({search: value})}
-                        style={{width: '80%'}}
+                        onSubmitEditing={ (value) => this.handleSearch(value)}
+                        style={{width: '80%', height: 40, backgroundColor: '#fb8691', borderRadius: 10, color: 'white', paddingLeft: 20, marginBottom: 15}}
                     />
-                    <TouchableOpacity style={{backgroundColor: 'red', width: '10%'}} onPress={() => this.handleSearch()} ><Text>clikc</Text></TouchableOpacity>
+                    <TouchableOpacity style={{ width: '20%', height: 40, alignItems: 'center', justifyContent: 'center' }} onPress={() => this.handleSearch()} ><Text style={{color: 'grey'}}>Search</Text></TouchableOpacity>
                 </View>
-                {/* <Text style={{ fontFamily: 'AirbnbCerealMedium', alignSelf: 'flex-start', fontSize: 30, color: '#414141', marginBottom: 25}}>Search</Text> */}
+                {this.state.emptyData ?
+                    <View style={{justifyContent: 'center', alignItems: 'center', height: height*0.8, width: '100%', }}>
+                        <Icon type='Octicons' name='file-directory' style={{ fontSize: 150, color: '#fb9e91'}} />
+                        <Text style={{color: '#fb9e91'}}>Whoops, we're unable to find data you're looking for</Text>
+                    </View>
+                    :
+                    <Text></Text>
+                }
                 <FlatList
                     data={this.state.hotelFlatLi}
                     renderItem={this._renderRow}

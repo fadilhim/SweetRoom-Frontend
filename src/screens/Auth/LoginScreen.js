@@ -47,7 +47,7 @@ class LoginScreen extends Component{
     }
 
     submitForm = () => {
-        Axios.post('http://192.168.100.36:1010/user/login/', this.state.form)
+        Axios.post('https://sweetappbackend.herokuapp.com/user/login/', this.state.form)
             .then( async (res) => {
                 if (res.data.status === 200 && res.data.result[0].level == 'user' ){
                     await AsyncStorage.setItem('token', res.data.accessToken)

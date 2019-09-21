@@ -84,7 +84,6 @@ const HomeTabNavigation = createBottomTabNavigator(
             },
         },
     },{
-        initialRouteName: 'Profile',
         tabBarOptions: { 
             activeTintColor: '#fb8691',
             inactiveTintColor: '#52525290',

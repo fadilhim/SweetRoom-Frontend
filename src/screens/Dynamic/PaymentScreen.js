@@ -38,6 +38,7 @@ class PaymentScreen extends Component{
                     <View style={styles.containerView}>
                         <Text style={styles.textheader}>Virtual Account # <Text style={styles.textdecoration}> {item.bank_account_number} </Text></Text>
                         <Text style={styles.textheader}>Virtual Account Name <Text style={styles.textdecoration}> {item.account_holder_name}</Text></Text>
+                        <Text style={styles.textheader}>Your Bill is <Text style={styles.textdecoration}> {item.transfer_amount}</Text></Text>
                         <Text style={styles.pleaseread}>Please read the instructions below to complete your transactions.</Text>
                         <TouchableOpacity activeOpacity={1} style={{backgroundColor: '#fb8691', width: '100%', height: 40, borderTopLeftRadius: 10, borderTopRightRadius: 10}} onPress={() => this.setState({atm: !this.state.atm})}>
                             <Text style={styles.collapsetext}>ATM {item.bank_code}</Text>

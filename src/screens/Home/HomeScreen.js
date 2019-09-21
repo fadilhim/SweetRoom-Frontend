@@ -62,7 +62,7 @@ class HomeScreen extends Component{
         await AsyncStorage.getItem('token')
         await AsyncStorage.setItem('tokenXendit', 'Basic eG5kX2RldmVsb3BtZW50XzY0S1hHd3hzYWJtVnVUbUxkYTZrNllQVFpiNWdtbmM4RG5VN0xQUnowZFdRTmhZekl1VnBqRFhHdmNscVc6')
 
-        Axios.get('http://192.168.100.36:1010/hotel/data/4')
+        Axios.get('https://sweetappbackend.herokuapp.com/hotel/data/4')
             .then(res => {
                 this.setState({
                     hotelList: res.data.result.data
@@ -95,9 +95,9 @@ class HomeScreen extends Component{
         }
     }
 
-    componentWillUnmount = () => {
-        Geolocation.stopObserving()
-    }
+    // componentWillUnmount = () => {
+    //     Geolocation.stopObserving()
+    // }
 
     requestLocationPermission = async () => {
         try {

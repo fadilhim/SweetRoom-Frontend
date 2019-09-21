@@ -26,7 +26,7 @@ class HotelScreen extends Component{
 
     render() {
         let data = this.state.data
-        console.log(data)
+        console.log('iki',data)
         return(
             <View style={{flex: 1}}>
                 <ScrollView>
@@ -64,6 +64,9 @@ class HotelScreen extends Component{
                 <View style={styles.footer}>
                     <TouchableOpacity onPress={ () => this.props.navigation.navigate('Room', {name: data.hotel_name, id: data.id})} style={styles.bookButton} activeOpacity={0.8} >
                         <Text style={{ color: '#fb8691', fontSize: 13, fontFamily: 'AirbnbCerealMedium'}}>Check room</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ChatRoom', {ChatId: data.user_id })} >
+                        <Icon type="MaterialIcons" name="chat-bubble-outline" style={{fontSize:22, color:`red`}}/>
                     </TouchableOpacity>
                 </View>
             </View>

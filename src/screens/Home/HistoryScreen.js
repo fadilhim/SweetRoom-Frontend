@@ -25,7 +25,7 @@ class HistoryScreen extends Component{
             )
         await AsyncStorage.getItem('token')
             .then( (result) => {
-                Axios.get( 'http://192.168.100.36:1010/reservation/history/a', {
+                Axios.get( 'https://sweetappbackend.herokuapp.com/reservation/history/a', {
                     headers: {
                         sweet_token: result
                     }

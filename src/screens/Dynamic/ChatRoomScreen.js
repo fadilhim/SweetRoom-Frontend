@@ -22,7 +22,7 @@ class ChatRoom extends React.Component {
         };
     }
     componentDidMount = async () => {
-        const chatId = this.props.navigation.state.params.ChatId;
+        const chatId = this.props.navigation.getParam('ChatId')
         await AsyncStorage.getItem('dataUser')
         .then(res => {
         this.setState({
