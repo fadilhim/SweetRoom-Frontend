@@ -30,7 +30,7 @@ Sweet room App means to room reservation quickly and real time. You can find out
 
 ## Usage for development
 1. Open your terminal or command prompt
-2. Type `git clone https://github.com/sluxz3r/NgeChat-App.git`
+2. Type `git clone https://github.com/PokoGroot/SweetRoom-Frontend.git`
 3. Open the folder and type `yarn` for install dependencies and `react-native link`
 4. Before run this, you must setting configure on firebase 
 5. Type `react-native run-android` for run this app. ***Make sure your device is connected with debugging mode***.
