@@ -8,7 +8,7 @@
 - [Usage](#usage-for-development)
 - [Screenshots](#screenshots)
 - [Release APK](#release-apk)
-- [Related Project](#related-project-backend)
+- [Related Project](https://github.com/brillianodhiya/SweetRoom-Backend)
 
 ## Introduction
 Sweet room App means to room reservation quickly and real time. You can find out the hotel location in map.
